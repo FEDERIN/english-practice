@@ -441,7 +441,7 @@ export default function Builder({ onExit, recordAnswer }) {
             setIsPlaying(true)
             var text = built.parts.join(' ')
             if (!text) { setIsPlaying(false); return }
-            var url = 'https://translate.google.com/translate_tts?ie=UTF-8&tl=en&client=tw-ob&q=' + encodeURIComponent(text)
+            var url = 'https://translate.google.com/translate_tts?ie=UTF-8&tl=en&client=gtx&q=' + encodeURIComponent(text)
             // Try Audio element first
             var audio = new Audio(url)
             audio.onended = function () { setIsPlaying(false) }
