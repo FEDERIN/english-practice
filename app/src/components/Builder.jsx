@@ -108,6 +108,7 @@ export default function Builder({ onExit, recordAnswer }) {
   var [lastKey, setLastKey] = useState('')
   var [copied, setCopied] = useState(false)
   var [piecesCopied, setPiecesCopied] = useState(false)
+  var [isPlaying, setIsPlaying] = useState(false)
   var [displayedVerbs, setDisplayedVerbs] = useState(function () {
     return shuffleVerbs(verbs, (combination && combination.verbId) || 'study')
   })
@@ -430,6 +431,23 @@ export default function Builder({ onExit, recordAnswer }) {
             </span>
           )
         })}
+        <button
+          type="button"
+          className="secondary-button piece-copy"
+          disabled={isPlaying}
+          onClick={function () {
+            var text = built.parts.join(' ')
+            if (!text) return
+            setIsPlaying(true)
+            var url = 'https://translate.google.com/translate_tts?ie=UTF-8&tl=en&client=tw-ob&q=' + encodeURIComponent(text)
+            var audio = new Audio(url)
+            audio.onended = function () { setIsPlaying(false) }
+            audio.onerror = function () { setIsPlaying(false) }
+            audio.play().catch(function () { setIsPlaying(false) })
+          }}
+        >
+          {isPlaying ? '...' : '🔊'}
+        </button>
         <button
           type="button"
           className="secondary-button piece-copy"
