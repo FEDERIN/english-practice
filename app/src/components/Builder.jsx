@@ -441,32 +441,25 @@ export default function Builder({ onExit, recordAnswer }) {
             setIsPlaying(true)
             var text = built.parts.join(' ')
             if (!text) { setIsPlaying(false); return }
-            var url = 'https://translate.google.com/translate_tts?ie=UTF-8&tl=en&client=tw-ob&q=' + encodeURIComponent(text)
-            // Create Audio synchronously within click handler (required for iOS Safari)
-            var audio = new Audio()
-            audio.onended = function () { setIsPlaying(false) }
-            audio.onerror = function () { setIsPlaying(false) }
-            // Try direct src first
-            audio.src = url
-            var playPromise = audio.play()
-            if (playPromise && typeof playPromise.then === 'function') {
-              playPromise.catch(function () {
-                // Fallback: fetch as blob
-                if (window.fetch) {
-                  fetch(url)
-                    .then(function (res) { return res.blob() })
-                    .then(function (blob) {
-                      var objectUrl = URL.createObjectURL(blob)
-                      var a2 = new Audio(objectUrl)
-                      a2.onended = function () { setIsPlaying(false); URL.revokeObjectURL(objectUrl) }
-                      a2.onerror = function () { setIsPlaying(false); URL.revokeObjectURL(objectUrl) }
-                      a2.play().catch(function () { setIsPlaying(false) })
-                    })
-                    .catch(function () { setIsPlaying(false) })
-                } else {
-                  setIsPlaying(false)
-                }
-              })
+            // Load ResponsiveVoice if not present
+            function doSpeak() {
+              if (window.responsiveVoice) {
+                window.responsiveVoice.speak(text, 'UK English Female', {
+                  onend: function () { setIsPlaying(false) },
+                  onerror: function () { setIsPlaying(false) },
+                })
+              } else {
+                setIsPlaying(false)
+              }
+            }
+            if (!window.responsiveVoice) {
+              var s = document.createElement('script')
+              s.src = 'https://code.responsivevoice.org/responsivevoice.js'
+              s.onload = doSpeak
+              s.onerror = function () { setIsPlaying(false) }
+              document.head.appendChild(s)
+            } else {
+              doSpeak()
             }          }}
         >
           {isPlaying ? '...' : '🔊'}
