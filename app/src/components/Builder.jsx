@@ -34,6 +34,7 @@ export default function Builder({ onExit, recordAnswer }) {
   var [result, setResult] = useState(null)
   var [lastKey, setLastKey] = useState('')
   var [copied, setCopied] = useState(false)
+  var [piecesCopied, setPiecesCopied] = useState(false)
 
   var tense = tenses.filter(function (item) { return item.id === tenseId })[0]
   var subject = getSubject(combination.subjectId)
@@ -87,6 +88,7 @@ export default function Builder({ onExit, recordAnswer }) {
     setResult(null)
     setLastKey('')
     setCopied(false)
+    setPiecesCopied(false)
   }
 
   function setPart(part, id) {
@@ -101,6 +103,7 @@ export default function Builder({ onExit, recordAnswer }) {
     setResult(null)
     setLastKey('')
     setCopied(false)
+    setPiecesCopied(false)
   }
 
   function check(event) {
@@ -186,6 +189,7 @@ export default function Builder({ onExit, recordAnswer }) {
           <option value="affirmative">Affirmative</option>
           <option value="negative">Negative</option>
           <option value="question">Question</option>
+          <option value="question_negative">Question (negative)</option>
         </select>
         <button type="button" className="secondary-button" onClick={function () { reset(tenseId) }}>
           New combination
@@ -194,7 +198,7 @@ export default function Builder({ onExit, recordAnswer }) {
 
       <div className="rule-strip">
         <strong>{tense.title}</strong>
-        <span>{tense.form}</span>
+        <span>{tense.form[polarity] || tense.form.affirmative}</span>
         <span>{tense.use}</span>
       </div>
 
@@ -282,6 +286,32 @@ export default function Builder({ onExit, recordAnswer }) {
             </span>
           )
         })}
+        <button
+          type="button"
+          className="secondary-button piece-copy"
+          onClick={function () {
+            var text = built.parts.join(' ')
+            function fallback() {
+              var area = document.createElement('textarea')
+              area.value = text
+              area.setAttribute('readonly', 'readonly')
+              area.style.position = 'fixed'
+              area.style.top = '-1000px'
+              document.body.appendChild(area)
+              area.select()
+              try { document.execCommand('copy') } catch (error) {}
+              document.body.removeChild(area)
+              setPiecesCopied(true)
+            }
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+              navigator.clipboard.writeText(text).then(function () { setPiecesCopied(true) }).catch(fallback)
+            } else {
+              fallback()
+            }
+          }}
+        >
+          {piecesCopied ? 'Copied!' : 'Copy pieces'}
+        </button>
       </div>
       {time.appliesTo ? (
         <p className="small-note">{time.appliesTo}</p>

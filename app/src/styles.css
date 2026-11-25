@@ -764,6 +764,13 @@ h3 {
   font-weight: 600;
 }
 
+.piece-copy {
+  min-height: 34px;
+  padding: 5px 12px;
+  margin: 3px;
+  font-size: 13px;
+}
+
 .builder-answer {
   padding: 18px;
   border: 1px solid var(--line);

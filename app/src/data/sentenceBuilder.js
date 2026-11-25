@@ -207,7 +207,12 @@ export var tenses = [
   {
     id: 'present_simple',
     title: 'Simple present',
-    form: 'subject + base verb (+ -s / -es for he / she / it)',
+    form: {
+      affirmative: 'subject + base verb (+ -s / -es for he / she / it)',
+      negative: 'subject + do/does not + base verb',
+      question: 'Do/Does + subject + base verb?',
+      question_negative: 'Don\'t/Doesn\'t + subject + base verb?',
+    },
     use: 'Habits, facts, states and schedules.',
     example: 'She studies every day.',
     hint: 'With he / she / it, add -s or -es to the verb.',
@@ -216,7 +221,12 @@ export var tenses = [
   {
     id: 'presente_continuo',
     title: 'Present continuous',
-    form: 'subject + am / is / are + verb-ing',
+    form: {
+      affirmative: 'subject + am / is / are + verb-ing',
+      negative: 'subject + am / is / are + not + verb-ing',
+      question: 'Am/Is/Are + subject + verb-ing?',
+      question_negative: 'Aren\'t/Isn\'t + subject + verb-ing?',
+    },
     use: 'Actions happening right now.',
     example: 'We are studying right now.',
     hint: 'Choose am, is or are to match the subject, then use verb-ing.',
@@ -225,7 +235,12 @@ export var tenses = [
   {
     id: 'simple_past',
     title: 'Simple past',
-    form: 'subject + past verb',
+    form: {
+      affirmative: 'subject + past verb',
+      negative: 'subject + did not + base verb',
+      question: 'Did + subject + base verb?',
+      question_negative: 'Didn\'t + subject + base verb?',
+    },
     use: 'Finished actions at a specific past time.',
     example: 'We studied yesterday.',
     hint: 'Use the past form of the verb. Negative: did not + base verb.',
@@ -234,7 +249,12 @@ export var tenses = [
   {
     id: 'past_continuous',
     title: 'Past continuous',
-    form: 'subject + was / were + verb-ing',
+    form: {
+      affirmative: 'subject + was / were + verb-ing',
+      negative: 'subject + was / were + not + verb-ing',
+      question: 'Was/Were + subject + verb-ing?',
+      question_negative: 'Wasn\'t/Weren\'t + subject + verb-ing?',
+    },
     use: 'Actions in progress in the past.',
     example: 'They were studying when I called.',
     hint: 'Use was with I / he / she / it; were with you / we / they.',
@@ -243,7 +263,12 @@ export var tenses = [
   {
     id: 'present_perfect',
     title: 'Present perfect',
-    form: 'subject + have / has + past participle',
+    form: {
+      affirmative: 'subject + have / has + past participle',
+      negative: 'subject + have / has + not + past participle',
+      question: 'Have/Has + subject + past participle?',
+      question_negative: 'Haven\'t/Hasn\'t + subject + past participle?',
+    },
     use: 'Experiences and past actions connected to now.',
     example: 'We have already studied.',
     hint: 'Use have or has, then the past participle.',
@@ -252,7 +277,12 @@ export var tenses = [
   {
     id: 'present_perfect_continuous',
     title: 'Present perfect continuous',
-    form: 'subject + have / has been + verb-ing',
+    form: {
+      affirmative: 'subject + have / has been + verb-ing',
+      negative: 'subject + have / has + not + been + verb-ing',
+      question: 'Have/Has + subject + been + verb-ing?',
+      question_negative: 'Haven\'t/Hasn\'t + subject + been + verb-ing?',
+    },
     use: 'Actions that started before and still continue.',
     example: 'We have been studying for two hours.',
     hint: 'Use have / has been, then verb-ing.',
@@ -261,7 +291,12 @@ export var tenses = [
   {
     id: 'past_perfect',
     title: 'Past perfect',
-    form: 'subject + had + past participle',
+    form: {
+      affirmative: 'subject + had + past participle',
+      negative: 'subject + had + not + past participle',
+      question: 'Had + subject + past participle?',
+      question_negative: 'Hadn\'t + subject + past participle?',
+    },
     use: 'An action completed before another past action.',
     example: 'We had studied before the test.',
     hint: 'Use had for every subject, then the past participle.',
@@ -270,7 +305,12 @@ export var tenses = [
   {
     id: 'past_perfect_continuous',
     title: 'Past perfect continuous',
-    form: 'subject + had been + verb-ing',
+    form: {
+      affirmative: 'subject + had been + verb-ing',
+      negative: 'subject + had + not + been + verb-ing',
+      question: 'Had + subject + been + verb-ing?',
+      question_negative: 'Hadn\'t + subject + been + verb-ing?',
+    },
     use: 'Duration before another past event.',
     example: 'We had been studying for two hours.',
     hint: 'Use had been, then verb-ing.',
@@ -279,7 +319,12 @@ export var tenses = [
   {
     id: 'simple_future',
     title: 'Simple future',
-    form: 'subject + will + base verb',
+    form: {
+      affirmative: 'subject + will + base verb',
+      negative: 'subject + will not + base verb',
+      question: 'Will + subject + base verb?',
+      question_negative: 'Won\'t + subject + base verb?',
+    },
     use: 'Spontaneous decisions, promises and predictions.',
     example: 'We will study next week.',
     hint: 'Use will, then the base verb with no -s.',
@@ -288,7 +333,12 @@ export var tenses = [
   {
     id: 'future_continuous',
     title: 'Future Continuous',
-    form: 'subject + will be + verb-ing',
+    form: {
+      affirmative: 'subject + will be + verb-ing',
+      negative: 'subject + will not be + verb-ing',
+      question: 'Will + subject + be + verb-ing?',
+      question_negative: 'Won\'t + subject + be + verb-ing?',
+    },
     use: 'Actions in progress at a specific time in the future.',
     example: 'We will be studying next week.',
     hint: 'After “will” you need “be”, then the -ing verb.',
@@ -300,7 +350,12 @@ export var tenses = [
   {
     id: 'future_perfect',
     title: 'Future perfect',
-    form: 'subject + will have + past participle',
+    form: {
+      affirmative: 'subject + will have + past participle',
+      negative: 'subject + will not have + past participle',
+      question: 'Will + subject + have + past participle?',
+      question_negative: 'Won\'t + subject + have + past participle?',
+    },
     use: 'An action completed before a future deadline.',
     example: 'We will have studied by Friday.',
     hint: 'Use will have, then the past participle.',
@@ -309,7 +364,12 @@ export var tenses = [
   {
     id: 'future_perfect_continuous',
     title: 'Future perfect continuous',
-    form: 'subject + will have been + verb-ing',
+    form: {
+      affirmative: 'subject + will have been + verb-ing',
+      negative: 'subject + will not have been + verb-ing',
+      question: 'Will + subject + have been + verb-ing?',
+      question_negative: 'Won\'t + subject + have been + verb-ing?',
+    },
     use: 'Duration up to a future time.',
     example: 'We will have been studying for two hours.',
     hint: 'Use will have been, then verb-ing.',
@@ -442,6 +502,32 @@ export function buildSentence(tenseId, subject, verb, time, polarity, complement
       parts.push(time.text);
     }
     middle = parts.join(" ");
+  } else if (polarity === "question_negative") {
+    if (tenseId === "present_simple") {
+      let subjectValue = subject.text != 'I' ? subject.text.toLowerCase() : 'I';
+      text = (isThirdSingular(subject) ? "Doesn't" : "Don't") + " " + subjectValue + " " + verb.base + (complement ? " " + complement : "") + " " + time.text + "?";
+      parts = [isThirdSingular(subject) ? "Doesn't" : "Don't", subjectValue, verb.base];
+      if (complement) parts.push(complement);
+      parts.push(time.text);
+    } else if (tenseId === "presente_continuo") {
+      var aux = (subject.bePresent === 'is' ? "Isn't" : (subject.bePresent === 'are' ? "Aren't" : "Aren't"));
+      text = aux + " " + subject.text.toLowerCase() + " " + verb.ing + (complement ? " " + complement : "") + " " + time.text + "?";
+      parts = [aux, subject.text, verb.ing];
+      if (complement) parts.push(complement);
+      parts.push(time.text);
+    } else if (tenseId === "simple_past") {
+      let subjectValue = subject.text != 'I' ? subject.text.toLowerCase() : 'I';
+      text = "Didn't " + subjectValue + " " + verb.base + (complement ? " " + complement : "") + " " + time.text + "?";
+      parts = ["Didn't", subjectValue, verb.base];
+      if (complement) parts.push(complement);
+      parts.push(time.text);
+    } else {
+      text = "Won't " + subject.text.toLowerCase() + " " + verb.base + (complement ? " " + complement : "") + " " + time.text + "?";
+      parts = ["Won't", subject.text, verb.base];
+      if (complement) parts.push(complement);
+      parts.push(time.text);
+    }
+    middle = parts.join(" ");
   } else {
     text = subject.text + " " + withComplement(middle) + " " + time.text + ".";
     parts = [subject.text, middle];
@@ -565,9 +651,10 @@ export function evaluateSentence(tenseId, subject, verb, time, userSentence, pol
     naturalMessage = 'This is understandable, but not the most natural pairing. ' + time.note
   }
 
+  var formForPolarity = (tense.form && tense.form[polarity]) ? tense.form[polarity] : (tense.form && tense.form.affirmative ? tense.form.affirmative : tense.form)
   var grammarMessage = grammatical
     ? 'The structure matches ' + tense.title + '.'
-    : 'Check the structure. Pattern: ' + tense.form + '.'
+    : 'Check the structure. Pattern: ' + formForPolarity + '.'
 
   var difference = grammatical ? null : firstDifference(expected, userSentence)
   if (difference) {
@@ -589,16 +676,18 @@ export function evaluateSentence(tenseId, subject, verb, time, userSentence, pol
     grammarMessage: grammarMessage,
     naturalMessage: naturalMessage,
     notes: tense.notes,
-    aiPrompt: buildAiPrompt(tense, built, userSentence, grammatical, natural, naturalMessage),
+    aiPrompt: buildAiPrompt(tense, built, userSentence, grammatical, natural, naturalMessage, polarity),
   }
 }
 
-function buildAiPrompt(tense, built, userSentence, grammatical, natural, naturalMessage) {
+function buildAiPrompt(tense, built, userSentence, grammatical, natural, naturalMessage, polarity) {
+  polarity = polarity || 'affirmative'
+  var formForPolarity = (tense.form && tense.form[polarity]) ? tense.form[polarity] : (tense.form && tense.form.affirmative ? tense.form.affirmative : tense.form)
   return [
     'You are a careful English tutor.',
     '',
     'Target tense: ' + tense.title + '.',
-    'Rule: ' + tense.form + '.',
+    'Rule: ' + formForPolarity + '.',
     'Use: ' + tense.use + '.',
     'Intended combination: ' + built.text + '.',
     'My sentence: "' + String(userSentence || '').trim() + '".',
