@@ -714,3 +714,6 @@ export function randomCombination(tenseId) {
     complementId: Math.random() < 0.7 ? complementPool[Math.floor(Math.random() * complementPool.length)].id : 'none',
   }
 }
+
+
+export var timeExpressionCategories = [{"id":"daily_frequency","label":"Daily Frequency","ids":["every_day","every_morning","every_afternoon","every_evening","every_night"]},{"id":"periodic_frequency","label":"Periodic Frequency","ids":["every_week","every_month","every_year","every_two_days","every_week_month_year"]},{"id":"repeated_frequency","label":"Repeated Frequency","ids":["once_a_day","twice_a_week","three_times_a_month"]},{"id":"specific_past","label":"Specific Past Time","ids":["yesterday"]},{"id":"specific_future","label":"Specific Future Time","ids":["next_week"]},{"id":"duration","label":"Duration","ids":["for_two_hours"]},{"id":"starting_point","label":"Starting Point","ids":["since_2020"]},{"id":"deadline","label":"Deadline","ids":["by_friday"]},{"id":"present_moment","label":"Present Moment","ids":["right_now"]},{"id":"future_reference","label":"Future Reference","ids":["tomorrow_at_eight","this_time_next_week","in_two_hours"]},{"id":"already","label":"Already","ids":["already"]}]
