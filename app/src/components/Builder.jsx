@@ -306,7 +306,10 @@ export default function Builder({ onExit, recordAnswer }) {
 
       <div className="builder-grid">
         <fieldset className="builder-panel">
-          <legend>Subject</legend>
+          <legend className="legend-empty"></legend>
+          <div className="divider">
+            <span className="divider-title">Subject</span>
+          </div>
           <div className="option-list">
             {subjects.map(function (item) {
               return (
