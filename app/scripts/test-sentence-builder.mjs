@@ -120,7 +120,7 @@ check('random combinations stay inside the available ids', function () {
     var combination = randomCombination('future_continuous')
     assert.ok(subjects.some(function (item) { return item.id === combination.subjectId }))
     assert.ok(verbs.some(function (item) { return item.id === combination.verbId }))
-    assert.ok(timeExpressions.some(function (item) { return item.id === combination.timeId }))
+    assert.ok(combination.timeId === null || timeExpressions.some(function (item) { return item.id === combination.timeId }))
   }
 })
 

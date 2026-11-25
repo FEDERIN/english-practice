@@ -318,7 +318,11 @@ export function buildSentence(tenseId, subject, verb, time, polarity, complement
   polarity = polarity || "affirmative";
   complement = complement && complement.id !== 'none' ? complement.text : '';
   var middle = verbPhrase(tenseId, subject, verb);
-  var resolvedTimeText = timeText || (Array.isArray(time.text) ? time.text[0] : time.text);
+  var resolvedTimeText = ''
+  if (time) {
+    resolvedTimeText = timeText || (Array.isArray(time.text) ? time.text[0] : time.text) || ''
+  }
+  if (resolvedTimeText === 'none') resolvedTimeText = ''
   var text = "";
   var parts = [];
 
@@ -346,31 +350,31 @@ export function buildSentence(tenseId, subject, verb, time, polarity, complement
     } else {
       middle = middle.replace("will", "won't");
     }
-    text = subject.text + " " + withComplement(middle) + " " + resolvedTimeText + ".";
+    text = subject.text + " " + withComplement(middle) + (resolvedTimeText ? " " + resolvedTimeText : "") + ".";
     parts = [subject.text, middle];
     if (complement) parts.push(complement);
     parts.push(resolvedTimeText);
   } else if (polarity === "question") {
     if (tenseId === "present_simple") {
       let subjectValue = subject.text != 'I' ? subject.text.toLowerCase() : 'I';
-      text = (isThirdSingular(subject) ? "Does" : "Do") + " " + subjectValue + " " + verb.base + (complement ? " " + complement : "") + " " + resolvedTimeText + "?";
+      text = (isThirdSingular(subject) ? "Does" : "Do") + " " + subjectValue + " " + verb.base + (complement ? " " + complement : "") + (resolvedTimeText ? " " + resolvedTimeText : "") + "?";
       parts = [isThirdSingular(subject) ? "Does" : "Do", subjectValue, verb.base];
       if (complement) parts.push(complement);
       parts.push(resolvedTimeText);
     } else if (tenseId === "presente_continuo") {
       var aux = subject.bePresent.charAt(0).toUpperCase() + subject.bePresent.slice(1);
-      text = aux + " " + subject.text.toLowerCase() + " " + verb.ing + (complement ? " " + complement : "") + " " + resolvedTimeText + "?";
+      text = aux + " " + subject.text.toLowerCase() + " " + verb.ing + (complement ? " " + complement : "") + (resolvedTimeText ? " " + resolvedTimeText : "") + "?";
       parts = [aux, subject.text, verb.ing];
       if (complement) parts.push(complement);
       parts.push(resolvedTimeText);
     } else if (tenseId === "simple_past") {
       let subjectValue = subject.text != 'I' ? subject.text.toLowerCase() : 'I';
-      text = "Did " + subjectValue + " " + verb.base + (complement ? " " + complement : "") + " " + resolvedTimeText + "?";
+      text = "Did " + subjectValue + " " + verb.base + (complement ? " " + complement : "") + (resolvedTimeText ? " " + resolvedTimeText : "") + "?";
       parts = ["Did", subjectValue, verb.base];
       if (complement) parts.push(complement);
       parts.push(resolvedTimeText);
     } else {
-      text = "Will " + subject.text.toLowerCase() + " " + verb.base + (complement ? " " + complement : "") + " " + resolvedTimeText + "?";
+      text = "Will " + subject.text.toLowerCase() + " " + verb.base + (complement ? " " + complement : "") + (resolvedTimeText ? " " + resolvedTimeText : "") + "?";
       parts = ["Will", subject.text, verb.base];
       if (complement) parts.push(complement);
       parts.push(resolvedTimeText);
@@ -379,31 +383,31 @@ export function buildSentence(tenseId, subject, verb, time, polarity, complement
   } else if (polarity === "question_negative") {
     if (tenseId === "present_simple") {
       let subjectValue = subject.text != 'I' ? subject.text.toLowerCase() : 'I';
-      text = (isThirdSingular(subject) ? "Doesn't" : "Don't") + " " + subjectValue + " " + verb.base + (complement ? " " + complement : "") + " " + resolvedTimeText + "?";
+      text = (isThirdSingular(subject) ? "Doesn't" : "Don't") + " " + subjectValue + " " + verb.base + (complement ? " " + complement : "") + (resolvedTimeText ? " " + resolvedTimeText : "") + "?";
       parts = [isThirdSingular(subject) ? "Doesn't" : "Don't", subjectValue, verb.base];
       if (complement) parts.push(complement);
       parts.push(resolvedTimeText);
     } else if (tenseId === "presente_continuo") {
       var aux = (subject.bePresent === 'is' ? "Isn't" : (subject.bePresent === 'are' ? "Aren't" : "Aren't"));
-      text = aux + " " + subject.text.toLowerCase() + " " + verb.ing + (complement ? " " + complement : "") + " " + resolvedTimeText + "?";
+      text = aux + " " + subject.text.toLowerCase() + " " + verb.ing + (complement ? " " + complement : "") + (resolvedTimeText ? " " + resolvedTimeText : "") + "?";
       parts = [aux, subject.text, verb.ing];
       if (complement) parts.push(complement);
       parts.push(resolvedTimeText);
     } else if (tenseId === "simple_past") {
       let subjectValue = subject.text != 'I' ? subject.text.toLowerCase() : 'I';
-      text = "Didn't " + subjectValue + " " + verb.base + (complement ? " " + complement : "") + " " + resolvedTimeText + "?";
+      text = "Didn't " + subjectValue + " " + verb.base + (complement ? " " + complement : "") + (resolvedTimeText ? " " + resolvedTimeText : "") + "?";
       parts = ["Didn't", subjectValue, verb.base];
       if (complement) parts.push(complement);
       parts.push(resolvedTimeText);
     } else {
-      text = "Won't " + subject.text.toLowerCase() + " " + verb.base + (complement ? " " + complement : "") + " " + resolvedTimeText + "?";
+      text = "Won't " + subject.text.toLowerCase() + " " + verb.base + (complement ? " " + complement : "") + (resolvedTimeText ? " " + resolvedTimeText : "") + "?";
       parts = ["Won't", subject.text, verb.base];
       if (complement) parts.push(complement);
       parts.push(resolvedTimeText);
     }
     middle = parts.join(" ");
   } else {
-    text = subject.text + " " + withComplement(middle) + " " + resolvedTimeText + ".";
+    text = subject.text + " " + withComplement(middle) + (resolvedTimeText ? " " + resolvedTimeText : "") + ".";
     parts = [subject.text, middle];
     if (complement) parts.push(complement);
     parts.push(resolvedTimeText);
@@ -514,11 +518,15 @@ export function evaluateSentence(tenseId, subject, verb, time, userSentence, pol
 
   var natural = true
   var naturalMessage = 'This combination sounds natural in English.'
-  var isPreferred = (time.preferred || []).indexOf(tenseId) !== -1
-
-  if (!isPreferred) {
-    natural = false
-    naturalMessage = 'This is understandable, but not the most natural pairing. ' + (time.note || '')
+  if (time) {
+    var isPreferred = (time.preferred || []).indexOf(tenseId) !== -1
+    if (!isPreferred) {
+      natural = false
+      naturalMessage = 'This is understandable, but not the most natural pairing. ' + (time.note || '')
+    }
+  } else {
+    natural = true
+    naturalMessage = 'No time expression selected.'
   }
 
   var formForPolarity = (tense.form && tense.form[polarity]) ? tense.form[polarity] : (tense.form && tense.form.affirmative ? tense.form.affirmative : tense.form)
@@ -585,12 +593,12 @@ export function randomCombination(tenseId) {
   })
 
   var complementPool = complements.filter(function (item) { return item.id !== 'none' })
-  var chosenTime = times[Math.floor(Math.random() * times.length)]
-  var chosenTimeText = Array.isArray(chosenTime.text) ? chosenTime.text[Math.floor(Math.random() * chosenTime.text.length)] : chosenTime.text
+  var chosenTime = Math.random() < 0.3 ? null : times[Math.floor(Math.random() * times.length)]
+  var chosenTimeText = chosenTime ? (Array.isArray(chosenTime.text) ? chosenTime.text[Math.floor(Math.random() * chosenTime.text.length)] : chosenTime.text) : ''
   return {
     subjectId: subjects[Math.floor(Math.random() * subjects.length)].id,
     verbId: verbsWithoutRead[Math.floor(Math.random() * verbsWithoutRead.length)].id,
-    timeId: chosenTime.id,
+    timeId: chosenTime ? chosenTime.id : null,
     timeText: chosenTimeText,
     complementId: Math.random() < 0.7 ? complementPool[Math.floor(Math.random() * complementPool.length)].id : 'none',
   }

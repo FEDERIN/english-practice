@@ -42,7 +42,7 @@ export default function Builder({ onExit, recordAnswer }) {
   var verb = getVerb(combination.verbId)
   var time = getTime(combination.timeId)
   var complement = getComplement(combination.complementId || 'none')
-  var selectedTimeText = combination.timeText || (Array.isArray(time.text) ? time.text[0] : time.text)
+  var selectedTimeText = combination.timeText || (time && Array.isArray(time.text) ? time.text[0] : (time ? time.text : ''))
 
   // Complements only appear when they apply to the selected verb.
   var availableComplements = complements.filter(function (item) {
@@ -75,10 +75,10 @@ export default function Builder({ onExit, recordAnswer }) {
     ? preferred
     : timeExpressions
 
-  if (!availableTimes.some(function (item) { return item.id === time.id })) {
+  if (time && !availableTimes.some(function (item) { return item.id === time.id })) {
     combination.timeId = availableTimes[Math.floor(Math.random() * availableTimes.length)].id
     time = getTime(combination.timeId)
-    combination.timeText = Array.isArray(time.text) ? time.text[0] : time.text
+    combination.timeText = time && Array.isArray(time.text) ? time.text[0] : (time ? time.text : '')
     selectedTimeText = combination.timeText
     complement = getComplement(combination.complementId || 'none')
     built = buildSentence(tenseId, subject, verb, time, polarity, complement, selectedTimeText)
@@ -264,42 +264,38 @@ export default function Builder({ onExit, recordAnswer }) {
 
         <fieldset className="builder-panel">
           <legend>Time expression</legend>
-          <div className="time-categories">
-            {timeExpressionCategories.map(function (cat) {
-              var catTimes = availableTimes.filter(function (item) {
-                return item.categoryId === cat.id
+          <div className="option-list">
+            <button
+              type="button"
+              className={'option-button' + ((!time || !selectedTimeText) ? ' is-active' : '')}
+              onClick={function () {
+                var next = Object.assign({}, combination, { timeId: null, timeText: '' })
+                setCombination(next)
+              }}
+            >
+              none
+            </button>
+            {availableTimes.reduce(function (acc, item) {
+              var texts = Array.isArray(item.text) ? item.text : [item.text]
+              texts.forEach(function (t) {
+                acc.push({ id: item.id, text: t })
               })
-              if (!catTimes.length) return null
-              var options = catTimes.reduce(function (acc, item) {
-                var texts = Array.isArray(item.text) ? item.text : [item.text]
-                texts.forEach(function (t) {
-                  acc.push({ id: item.id, text: t })
-                })
-                return acc
-              }, [])
+              return acc
+            }, []).map(function (option) {
+              var isActive = time !== null && option.id === time.id && option.text === selectedTimeText
               return (
-                <div key={cat.id} className="time-category">
-                  <span className="time-category-label">{cat.label}</span>
-                  <div className="option-list">
-                    {options.map(function (option) {
-                      var isActive = option.id === time.id && option.text === selectedTimeText
-                      return (
-                        <button
-                          key={option.id + '-' + option.text}
-                          type="button"
-                          className={'option-button' + (isActive ? ' is-active' : '')}
-                          onClick={function () {
-                            setPart('timeId', option.id)
-                            var next = Object.assign({}, combination, { timeId: option.id, timeText: option.text })
-                            setCombination(next)
-                          }}
-                        >
-                          {option.text}
-                        </button>
-                      )
-                    })}
-                  </div>
-                </div>
+                <button
+                  key={option.id + '-' + option.text}
+                  type="button"
+                  className={'option-button' + (isActive ? ' is-active' : '')}
+                  onClick={function () {
+                    setPart('timeId', option.id)
+                    var next = Object.assign({}, combination, { timeId: option.id, timeText: option.text })
+                    setCombination(next)
+                  }}
+                >
+                  {option.text}
+                </button>
               )
             })}
           </div>
@@ -342,7 +338,7 @@ export default function Builder({ onExit, recordAnswer }) {
           {piecesCopied ? 'Copied!' : 'Copy pieces'}
         </button>
       </div>
-      {time.appliesTo ? (
+      {time && time.appliesTo ? (
         <p className="small-note">{time.appliesTo}</p>
       ) : null}
 
