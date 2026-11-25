@@ -3,7 +3,10 @@
 
 var TTS_ENDPOINT = 'https://api.voicerss.org/'
 var MAX_CHARS = 500
-var VOICE_LANG = 'en-us'
+// en-gb = British English, en-us = American English.
+var VOICE_LANG = 'en-gb'
+// Speech rate from -10 (slowest) to 10 (fastest). 0 is normal.
+var VOICE_RATE = -3
 
 function apiKey() {
   return typeof __VOICERSS_KEY__ !== 'undefined' ? __VOICERSS_KEY__ : ''
@@ -20,6 +23,7 @@ export function ttsUrl(text, lang) {
   return TTS_ENDPOINT +
     '?key=' + encodeURIComponent(apiKey()) +
     '&hl=' + voiceLang(lang) +
+    '&r=' + VOICE_RATE +
     '&c=MP3' +
     '&src=' + encodeURIComponent(q)
 }
