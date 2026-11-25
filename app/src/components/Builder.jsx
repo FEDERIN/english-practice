@@ -441,14 +441,19 @@ export default function Builder({ onExit, recordAnswer }) {
             setIsPlaying(true)
             var text = built.parts.join(' ')
             if (!text) { setIsPlaying(false); return }
-            if (window.responsiveVoice) {
-              window.responsiveVoice.speak(text, 'UK English Female', {
-                onend: function () { setIsPlaying(false) },
-                onerror: function () { setIsPlaying(false) },
-              })
-            } else {
+            var url = 'https://translate.google.com/translate_tts?ie=UTF-8&tl=en&client=tw-ob&q=' + encodeURIComponent(text)
+            // Use hidden iframe (bypasses CORS restrictions on iOS Safari)
+            var iframe = document.createElement('iframe')
+            iframe.style.display = 'none'
+            iframe.src = url
+            document.body.appendChild(iframe)
+            // Estimate duration: ~0.4s per word, min 1s
+            var words = text.split(/\s+/).length
+            var duration = Math.max(1000, words * 400)
+            setTimeout(function () {
               setIsPlaying(false)
-            }          }}
+              if (iframe.parentNode) iframe.parentNode.removeChild(iframe)
+            }, duration)          }}
         >
           {isPlaying ? '...' : '🔊'}
         </button>
