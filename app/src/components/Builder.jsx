@@ -71,9 +71,11 @@ export default function Builder({ onExit, recordAnswer }) {
   var preferred = timeExpressions.filter(function (item) {
     return (item.preferred || []).indexOf(tenseId) !== -1
   })
-  var availableTimes = preferred.length
-    ? preferred
-    : timeExpressions
+  // Filter by verb (exclusive), like complements
+  var verbFiltered = (preferred.length ? preferred : timeExpressions).filter(function (item) {
+    return !item.verbs || !item.verbs.length || item.verbs.indexOf(verb.id) !== -1
+  })
+  var availableTimes = verbFiltered.length ? verbFiltered : (preferred.length ? preferred : timeExpressions)
 
   if (time && !availableTimes.some(function (item) { return item.id === time.id })) {
     combination.timeId = availableTimes[Math.floor(Math.random() * availableTimes.length)].id
