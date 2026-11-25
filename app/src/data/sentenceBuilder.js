@@ -1,22 +1,8 @@
+export { complements } from './complements.js'
+import { complements } from './complements.js'
+
 // Data and evaluator for the Sentence Builder.
 // Everything here is plain JavaScript so it can also run in Node tests.
-
-export var complements = [
-  { id: 'none', text: '', verbs: ['study', 'work', 'wait', 'read', 'travel', 'write', 'swim', 'finish', 'call'] },
-  { id: 'english', text: 'English', verbs: ['study', 'teach', 'learn'] },
-  { id: 'french', text: 'French', verbs: ['study', 'teach', 'learn'] },
-  { id: 'spanish', text: 'Spanish', verbs: ['study', 'teach', 'learn'] },
-  { id: 'german', text: 'German', verbs: ['study', 'teach', 'learn'] },
-  { id: 'italian', text: 'Italian', verbs: ['study', 'teach', 'learn'] },
-  { id: 'math', text: 'math', verbs: ['study', 'read', 'teach', 'learn'] },
-  { id: 'science', text: 'science', verbs: ['study', 'teach', 'learn'] },
-  { id: 'history', text: 'history', verbs: ['study', 'teach', 'learn'] },
-  { id: 'the_book', text: 'the book', verbs: ['read', 'write', 'study'] },
-  { id: 'the_report', text: 'the report', verbs: ['write', 'read', 'finish'] },
-  { id: 'the_car', text: 'the car', verbs: ['work', 'fix'] },
-  { id: 'the_email', text: 'the email', verbs: ['write', 'read', 'send'] },
-  { id: 'the_lesson', text: 'the lesson', verbs: ['study', 'teach', 'learn', 'prepare'] },
-]
 
 export var subjects = [
   { id: 'i', text: 'I', person: 1, plural: false, bePresent: 'am', bePast: 'was', have: 'have' },
