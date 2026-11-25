@@ -771,6 +771,29 @@ h3 {
   font-size: 13px;
 }
 
+.time-categories {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.time-category {
+  padding: 10px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: #faf9f5;
+}
+
+.time-category-label {
+  display: block;
+  margin-bottom: 6px;
+  color: var(--navy);
+  font-size: 12px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+}
+
 .builder-answer {
   padding: 18px;
   border: 1px solid var(--line);

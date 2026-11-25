@@ -3,6 +3,7 @@ import {
   subjects,
   verbs,
   timeExpressions,
+  timeExpressionCategories,
   tenses,
   complements,
   getSubject,
@@ -264,28 +265,42 @@ export default function Builder({ onExit, recordAnswer }) {
 
         <fieldset className="builder-panel">
           <legend>Time expression</legend>
-          <div className="option-list">
-            {availableTimes.reduce(function (acc, item) {
-              var texts = Array.isArray(item.text) ? item.text : [item.text]
-              texts.forEach(function (t) {
-                acc.push({ id: item.id, text: t })
+          <div className="time-categories">
+            {timeExpressionCategories.map(function (cat) {
+              var catTimes = availableTimes.filter(function (item) {
+                return cat.ids.indexOf(item.id) !== -1
               })
-              return acc
-            }, []).map(function (option) {
-              var isActive = option.id === time.id && option.text === selectedTimeText
+              if (!catTimes.length) return null
+              var options = catTimes.reduce(function (acc, item) {
+                var texts = Array.isArray(item.text) ? item.text : [item.text]
+                texts.forEach(function (t) {
+                  acc.push({ id: item.id, text: t })
+                })
+                return acc
+              }, [])
               return (
-                <button
-                  key={option.id + '-' + option.text}
-                  type="button"
-                  className={'option-button' + (isActive ? ' is-active' : '')}
-                  onClick={function () {
-                    setPart('timeId', option.id)
-                    var next = Object.assign({}, combination, { timeId: option.id, timeText: option.text })
-                    setCombination(next)
-                  }}
-                >
-                  {option.text}
-                </button>
+                <div key={cat.id} className="time-category">
+                  <span className="time-category-label">{cat.label}</span>
+                  <div className="option-list">
+                    {options.map(function (option) {
+                      var isActive = option.id === time.id && option.text === selectedTimeText
+                      return (
+                        <button
+                          key={option.id + '-' + option.text}
+                          type="button"
+                          className={'option-button' + (isActive ? ' is-active' : '')}
+                          onClick={function () {
+                            setPart('timeId', option.id)
+                            var next = Object.assign({}, combination, { timeId: option.id, timeText: option.text })
+                            setCombination(next)
+                          }}
+                        >
+                          {option.text}
+                        </button>
+                      )
+                    })}
+                  </div>
+                </div>
               )
             })}
           </div>
