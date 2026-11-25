@@ -352,7 +352,10 @@ export default function Builder({ onExit, recordAnswer }) {
         </fieldset>
 
         <fieldset className="builder-panel">
-          <legend>Complement</legend>
+          <legend className="legend-empty"></legend>
+          <div className="divider">
+            <span className="divider-title">Complement</span>
+          </div>
           <div className="option-list">
             {availableComplements.map(function (item) {
               return (
