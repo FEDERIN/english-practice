@@ -98,7 +98,10 @@ export default function Builder({ onExit, recordAnswer }) {
   var [tenseId, setTenseId] = useState('future_continuous')
   var [polarity, setPolarity] = useState('affirmative')
   var [combination, setCombination] = useState(function () {
-    return randomCombination('future_continuous')
+    var combo = randomCombination('future_continuous')
+    combo.timeId = null
+    combo.timeText = ''
+    return combo
   })
   var [sentence, setSentence] = useState('')
   var [result, setResult] = useState(null)
