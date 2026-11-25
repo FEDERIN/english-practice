@@ -91,7 +91,10 @@ export default function Builder({ onExit, recordAnswer }) {
 
   function reset(tenseToUse) {
     setTenseId(tenseToUse)
-    setCombination(randomCombination(tenseToUse))
+    var combo = randomCombination(tenseToUse)
+    combo.timeId = null
+    combo.timeText = ''
+    setCombination(combo)
     setSentence('')
     setResult(null)
     setLastKey('')
