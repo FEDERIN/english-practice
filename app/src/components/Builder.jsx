@@ -71,11 +71,14 @@ export default function Builder({ onExit, recordAnswer }) {
   var preferred = timeExpressions.filter(function (item) {
     return (item.preferred || []).indexOf(tenseId) !== -1
   })
-  // Filter by verb (exclusive), like complements
-  var verbFiltered = (preferred.length ? preferred : timeExpressions).filter(function (item) {
-    return !item.verbs || !item.verbs.length || item.verbs.indexOf(verb.id) !== -1
+  var pool = preferred.length ? preferred : timeExpressions
+  // Filter by verb using verbExamples for the selected tense (if defined)
+  var verbFiltered = pool.filter(function (item) {
+    var ve = item.verbExamples ? item.verbExamples[tenseId] : null
+    if (!ve || !Array.isArray(ve) || !ve.length) return true
+    return ve.indexOf(verb.id) !== -1
   })
-  var availableTimes = verbFiltered.length ? verbFiltered : (preferred.length ? preferred : timeExpressions)
+  var availableTimes = verbFiltered.length ? verbFiltered : pool
 
   if (time && !availableTimes.some(function (item) { return item.id === time.id })) {
     combination.timeId = availableTimes[Math.floor(Math.random() * availableTimes.length)].id

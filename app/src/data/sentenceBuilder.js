@@ -66,7 +66,6 @@ export var timeExpressions = timeExpressionCategories.flatMap(function (cat) {
       preferred: cat.preferred || [],
       note: cat.note || '',
       context: cat.context || '',
-      verbs: cat.verbs || [],
       verbExamples: cat.verbExamples || {},
       preferredVerbs: preferredVerbs,
       categoryId: cat.id,
