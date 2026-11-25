@@ -6,7 +6,7 @@ var MAX_CHARS = 500
 // en-gb = British English, en-us = American English.
 var VOICE_LANG = 'en-gb'
 // Speech rate from -10 (slowest) to 10 (fastest). 0 is normal.
-var VOICE_RATE = -3
+var VOICE_RATE = 0
 
 function apiKey() {
   return typeof __VOICERSS_KEY__ !== 'undefined' ? __VOICERSS_KEY__ : ''
