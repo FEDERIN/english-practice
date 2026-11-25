@@ -324,13 +324,13 @@ export default function Builder({ onExit, recordAnswer }) {
         </fieldset>
 
         <fieldset className="builder-panel">
-          <legend className="legend-with-action">
-            <span>Verb</span>
+          <legend className="legend-empty"></legend>
+          <div className="divider">
+            <span className="divider-title">Verb</span>
             <button type="button" className="legend-refresh" aria-label="Refresh verbs" title="Refresh verbs" onClick={function () { setDisplayedVerbs(shuffleVerbs(verbs, combination.verbId)) }}>
               ↻
             </button>
-          </legend>
-          <div className="divider"></div>
+          </div>
           <div className="option-list">
             {displayedVerbs.map(function (item) {
               return (

@@ -934,12 +934,8 @@ h3 {
   }
 }
 
-.legend-with-action {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  width: 100%;
-  padding: 0;
+.legend-empty {
+  display: none;
 }
 
 .legend-refresh {
@@ -953,6 +949,7 @@ h3 {
   font-weight: 700;
   line-height: 1;
   cursor: pointer;
+  flex-shrink: 0;
 }
 
 .legend-refresh:hover {
@@ -961,8 +958,19 @@ h3 {
 }
 
 .divider {
-  height: 1px;
-  margin: 8px 0 12px;
-  background: var(--line);
-  border: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin: 4px 0 12px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--line);
+}
+
+.divider-title {
+  color: var(--navy);
+  font-size: 14px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
 }
