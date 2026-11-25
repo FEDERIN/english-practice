@@ -367,7 +367,13 @@ export default function Builder({ onExit, recordAnswer }) {
         </fieldset>
 
         <fieldset className="builder-panel">
-          <legend>Time expression</legend>
+          <legend className="legend-empty"></legend>
+          <div className="divider">
+            <span className="divider-title">Time expression</span>
+            <button type="button" className="legend-refresh" aria-label="Refresh times" title="Refresh times" onClick={function () { setDisplayedTimes(shuffleTimes(availableTimes, combination.timeId, combination.timeText)) }}>
+              ↻
+            </button>
+          </div>
           <div className="option-list">
             <button
               type="button"
@@ -403,9 +409,6 @@ export default function Builder({ onExit, recordAnswer }) {
               )
             })}
           </div>
-          <button type="button" className="secondary-button piece-copy" style={{ marginTop: '8px' }} onClick={function () { setDisplayedTimes(shuffleTimes(availableTimes, combination.timeId, combination.timeText)) }}>
-            Refresh times
-          </button>
         </fieldset>
       </div>
 
