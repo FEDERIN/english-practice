@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import {
   subjects,
   verbs,
@@ -58,6 +58,42 @@ function shuffleVerbs(list, selectedId) {
   return final
 }
 
+function shuffleTimes(list, selectedId, selectedText) {
+  var seen = {}
+  var unique = []
+  for (var u = 0; u < list.length; u++) {
+    var key = list[u].id + '|' + (Array.isArray(list[u].text) ? list[u].text.join(',') : list[u].text)
+    if (!seen[key]) {
+      seen[key] = true
+      unique.push(list[u])
+    }
+  }
+  var arr = unique.slice()
+  for (var i = arr.length - 1; i > 0; i--) {
+    var j = Math.floor(Math.random() * (i + 1))
+    var t = arr[i]
+    arr[i] = arr[j]
+    arr[j] = t
+  }
+  if (selectedId) {
+    var selInArr = arr.slice(0, 20).some(function (x) { return x.id === selectedId })
+    if (!selInArr) {
+      var sel = unique.filter(function (x) { return x.id === selectedId })[0]
+      if (sel) arr[19] = sel
+    }
+  }
+  var final = []
+  var finalSeen = {}
+  for (var f = 0; f < arr.length && final.length < 20; f++) {
+    var k = arr[f].id + '|' + (Array.isArray(arr[f].text) ? arr[f].text.join(',') : arr[f].text)
+    if (!finalSeen[k]) {
+      finalSeen[k] = true
+      final.push(arr[f])
+    }
+  }
+  return final
+}
+
 export default function Builder({ onExit, recordAnswer }) {
   var [tenseId, setTenseId] = useState('future_continuous')
   var [polarity, setPolarity] = useState('affirmative')
@@ -72,6 +108,13 @@ export default function Builder({ onExit, recordAnswer }) {
   var [displayedVerbs, setDisplayedVerbs] = useState(function () {
     return shuffleVerbs(verbs, (combination && combination.verbId) || 'study')
   })
+  var [displayedTimes, setDisplayedTimes] = useState(function () {
+    return shuffleTimes(timeExpressions, combination && combination.timeId, combination && combination.timeText)
+  })
+
+  useEffect(function () {
+    setDisplayedTimes(shuffleTimes(availableTimes, combination && combination.timeId, combination && combination.timeText))
+  }, [tenseId, (combination && combination.verbId)])
 
   var tense = tenses.filter(function (item) { return item.id === tenseId })[0]
   var subject = getSubject(combination.subjectId)
@@ -131,6 +174,7 @@ export default function Builder({ onExit, recordAnswer }) {
     combo.timeId = null
     combo.timeText = ''
     setCombination(combo)
+    setDisplayedTimes(shuffleTimes(timeExpressions, null, ''))
     setSentence('')
     setResult(null)
     setLastKey('')
@@ -332,7 +376,7 @@ export default function Builder({ onExit, recordAnswer }) {
             >
               none
             </button>
-            {availableTimes.reduce(function (acc, item) {
+            {displayedTimes.reduce(function (acc, item) {
               var texts = Array.isArray(item.text) ? item.text : [item.text]
               texts.forEach(function (t) {
                 acc.push({ id: item.id, text: t })
@@ -356,6 +400,9 @@ export default function Builder({ onExit, recordAnswer }) {
               )
             })}
           </div>
+          <button type="button" className="secondary-button piece-copy" style={{ marginTop: '8px' }} onClick={function () { setDisplayedTimes(shuffleTimes(availableTimes, combination.timeId, combination.timeText)) }}>
+            Refresh times
+          </button>
         </fieldset>
       </div>
 
