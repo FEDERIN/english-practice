@@ -442,18 +442,23 @@ export default function Builder({ onExit, recordAnswer }) {
             var text = built.parts.join(' ')
             if (!text) { setIsPlaying(false); return }
             var url = 'https://translate.google.com/translate_tts?ie=UTF-8&tl=en&client=tw-ob&q=' + encodeURIComponent(text)
-            // Use hidden iframe (bypasses CORS restrictions on iOS Safari)
-            var iframe = document.createElement('iframe')
-            iframe.style.display = 'none'
-            iframe.src = url
-            document.body.appendChild(iframe)
-            // Estimate duration: ~0.4s per word, min 1s
-            var words = text.split(/\s+/).length
-            var duration = Math.max(1000, words * 400)
-            setTimeout(function () {
+            // Try Audio element first
+            var audio = new Audio(url)
+            audio.onended = function () { setIsPlaying(false) }
+            audio.onerror = function () {
+              // Fallback: open in new tab (user confirmed this works)
               setIsPlaying(false)
-              if (iframe.parentNode) iframe.parentNode.removeChild(iframe)
-            }, duration)          }}
+              window.open(url, '_blank')
+            }
+            var playPromise = audio.play()
+            if (playPromise && typeof playPromise.then === 'function') {
+              playPromise.catch(function () {
+                setIsPlaying(false)
+                window.open(url, '_blank')
+              })
+            }
+            // Safety timeout
+            setTimeout(function () { setIsPlaying(false) }, Math.max(2000, text.split(/\s+/).length * 500))          }}
         >
           {isPlaying ? '...' : '🔊'}
         </button>
