@@ -41,6 +41,7 @@ export default function Builder({ onExit, recordAnswer }) {
   var verb = getVerb(combination.verbId)
   var time = getTime(combination.timeId)
   var complement = getComplement(combination.complementId || 'none')
+  var selectedTimeText = combination.timeText || (Array.isArray(time.text) ? time.text[0] : time.text)
 
   // Complements only appear when they apply to the selected verb.
   var availableComplements = complements.filter(function (item) {
@@ -60,7 +61,7 @@ export default function Builder({ onExit, recordAnswer }) {
     combination.verbId = availableVerbs[0].id
     verb = getVerb(combination.verbId)
   }
-  var built = buildSentence(tenseId, subject, verb, time, polarity, complement)
+  var built = buildSentence(tenseId, subject, verb, time, polarity, complement, selectedTimeText)
 
   // Only show time expressions that actually apply to the selected tense.
   // If none are marked as preferred, fall back to the ones that are not
@@ -77,8 +78,10 @@ export default function Builder({ onExit, recordAnswer }) {
   if (!availableTimes.some(function (item) { return item.id === time.id })) {
     combination.timeId = availableTimes[Math.floor(Math.random() * availableTimes.length)].id
     time = getTime(combination.timeId)
+    combination.timeText = Array.isArray(time.text) ? time.text[0] : time.text
+    selectedTimeText = combination.timeText
     complement = getComplement(combination.complementId || 'none')
-    built = buildSentence(tenseId, subject, verb, time, polarity, complement)
+    built = buildSentence(tenseId, subject, verb, time, polarity, complement, selectedTimeText)
   }
 
   function reset(tenseToUse) {
@@ -97,6 +100,7 @@ export default function Builder({ onExit, recordAnswer }) {
       verbId: combination.verbId,
       timeId: combination.timeId,
       complementId: combination.complementId || 'none',
+      timeText: combination.timeText || selectedTimeText,
     }
     next[part] = id
     setCombination(next)
@@ -112,7 +116,7 @@ export default function Builder({ onExit, recordAnswer }) {
       return
     }
 
-    var evaluation = evaluateSentence(tenseId, subject, verb, time, sentence, polarity, complement)
+    var evaluation = evaluateSentence(tenseId, subject, verb, time, sentence, polarity, complement, selectedTimeText)
     setResult(evaluation)
 
     var key = keyFor(tenseId, combination, sentence)
@@ -261,15 +265,26 @@ export default function Builder({ onExit, recordAnswer }) {
         <fieldset className="builder-panel">
           <legend>Time expression</legend>
           <div className="option-list">
-            {availableTimes.map(function (item) {
+            {availableTimes.reduce(function (acc, item) {
+              var texts = Array.isArray(item.text) ? item.text : [item.text]
+              texts.forEach(function (t) {
+                acc.push({ id: item.id, text: t })
+              })
+              return acc
+            }, []).map(function (option) {
+              var isActive = option.id === time.id && option.text === selectedTimeText
               return (
                 <button
-                  key={item.id}
+                  key={option.id + '-' + option.text}
                   type="button"
-                  className={'option-button' + (item.id === time.id ? ' is-active' : '')}
-                  onClick={function () { setPart('timeId', item.id) }}
+                  className={'option-button' + (isActive ? ' is-active' : '')}
+                  onClick={function () {
+                    setPart('timeId', option.id)
+                    var next = Object.assign({}, combination, { timeId: option.id, timeText: option.text })
+                    setCombination(next)
+                  }}
                 >
-                  {item.text}
+                  {option.text}
                 </button>
               )
             })}
