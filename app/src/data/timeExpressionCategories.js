@@ -3,6 +3,7 @@ export const timeExpressionCategories = [
   {
     id: "daily_frequency",
     label: "Daily Frequency",
+    verbs: ["study","work","wait","read","travel","write","swim","finish","call"],
     expressions: [
       "every day",
       "every morning",
@@ -17,6 +18,7 @@ export const timeExpressionCategories = [
   {
     id: "periodic_frequency",
     label: "Periodic Frequency",
+    verbs: ["study","work","wait","read","travel","write","swim","finish","call"],
     expressions: [
       "every week",
       "every month",
@@ -32,6 +34,7 @@ export const timeExpressionCategories = [
   {
     id: "repeated_frequency",
     label: "Repeated Frequency",
+    verbs: ["study","work","wait","read","travel","write","swim","finish","call"],
     expressions: [
       "once a day",
       "twice a week",
@@ -44,6 +47,7 @@ export const timeExpressionCategories = [
   {
     id: "specific_past",
     label: "Specific Past Time",
+    verbs: ["study","work","wait","read","travel","write","swim","finish","call"],
     expressions: [
       "yesterday",
       "last night",
@@ -63,6 +67,7 @@ export const timeExpressionCategories = [
   {
     id: "past_reference",
     label: "Past Reference",
+    verbs: ["study","work","wait","read","travel","write","swim","finish","call"],
     expressions: ["in the past"],
     preferred: ["simple_past", "present_perfect"],
     context: "past_experience",
@@ -71,6 +76,7 @@ export const timeExpressionCategories = [
   {
     id: "specific_future",
     label: "Specific Future Time",
+    verbs: ["study","work","wait","read","travel","write","swim","finish","call"],
     expressions: [
       "tomorrow",
       "next week",
@@ -102,6 +108,7 @@ export const timeExpressionCategories = [
   {
     id: "duration",
     label: "Duration",
+    verbs: ["study","work","wait","read","travel","write","swim","finish","call"],
     expressions: [
       "for two hours",
       "for three days",
@@ -121,6 +128,7 @@ export const timeExpressionCategories = [
   {
     id: "starting_point",
     label: "Starting Point",
+    verbs: ["study","work","wait","read","travel","write","swim","finish","call"],
     expressions: [
       "since 2020",
       "since Monday",
@@ -137,6 +145,7 @@ export const timeExpressionCategories = [
   {
     id: "deadline",
     label: "Deadline",
+    verbs: ["study","work","wait","read","travel","write","swim","finish","call"],
     expressions: [
       "by Friday",
       "by next week",
@@ -153,6 +162,7 @@ export const timeExpressionCategories = [
   {
     id: "present_moment",
     label: "Present Moment",
+    verbs: ["study","work","wait","read","travel","write","swim","finish","call"],
     expressions: [
       "right now",
       "at the moment",
@@ -171,6 +181,7 @@ export const timeExpressionCategories = [
   {
     id: "future_reference",
     label: "Future Reference",
+    verbs: ["study","work","wait","read","travel","write","swim","finish","call"],
     expressions: [
       "tomorrow at eight",
       "this time next week",
