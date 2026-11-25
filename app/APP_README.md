@@ -71,3 +71,4 @@ The Sentence Builder deliberately returns two independent verdicts. A sentence c
 
 - UI language is English; vocabulary meanings stay in Spanish because that is what the notes contain.
 - The service worker cache name is `english-practice-v2`. Bump it in `public/sw.js` when you deploy a new version so iPads refresh their cached files.
+- **TTS (optional):** the 🔊 button uses ResponsiveVoice. To enable it, get a free key at https://responsivevoice.org/ and replace `YOUR_KEY` in `index.html`. Without a key the button will not produce sound. Do not commit your key — keep it local or use Vercel environment variables.

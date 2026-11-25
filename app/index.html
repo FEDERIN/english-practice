@@ -12,11 +12,16 @@
     <link rel="apple-touch-icon" href="./icons/icon-192.png" />
     <link rel="icon" href="./icons/icon-192.png" />
     <title>English Practice</title>
+    <!--
+      TTS (ResponsiveVoice) — optional.
+      Get a free key at https://responsivevoice.org/ and replace YOUR_KEY below.
+      Without a key, the speak button will not produce sound.
+    -->
     <script src="https://cdn.responsivevoice.org/sdk/latest/responsivevoice.js"></script>
     <script>
-      responsiveVoice.init({
-        "apiKey": "xNU0FHLx"
-      });
+      if (window.responsiveVoice) {
+        responsiveVoice.init({ "apiKey": "YOUR_KEY" });
+      }
     </script>
   </head>
   <body>
