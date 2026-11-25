@@ -9,11 +9,17 @@ function apiKey() {
   return typeof __VOICERSS_KEY__ !== 'undefined' ? __VOICERSS_KEY__ : ''
 }
 
+// VoiceRSS needs full codes such as en-us; a bare "en" is rejected.
+function voiceLang(lang) {
+  if (!lang) return VOICE_LANG
+  return lang.indexOf('-') === -1 ? lang + '-us' : lang
+}
+
 export function ttsUrl(text, lang) {
   var q = String(text || '').slice(0, MAX_CHARS)
   return TTS_ENDPOINT +
     '?key=' + encodeURIComponent(apiKey()) +
-    '&hl=' + (lang || VOICE_LANG) +
+    '&hl=' + voiceLang(lang) +
     '&c=MP3' +
     '&src=' + encodeURIComponent(q)
 }
