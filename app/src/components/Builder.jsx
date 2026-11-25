@@ -26,7 +26,16 @@ function keyFor(tenseId, combination, sentence) {
 }
 
 function shuffleVerbs(list, selectedId) {
-  var arr = list.slice()
+  // Deduplicate by id first
+  var seen = {}
+  var unique = []
+  for (var u = 0; u < list.length; u++) {
+    if (!seen[list[u].id]) {
+      seen[list[u].id] = true
+      unique.push(list[u])
+    }
+  }
+  var arr = unique.slice()
   for (var i = arr.length - 1; i > 0; i--) {
     var j = Math.floor(Math.random() * (i + 1))
     var t = arr[i]
@@ -34,10 +43,19 @@ function shuffleVerbs(list, selectedId) {
     arr[j] = t
   }
   if (selectedId && arr.slice(0, 9).indexOf(selectedId) === -1) {
-    var sel = list.filter(function (v) { return v.id === selectedId })[0]
+    var sel = unique.filter(function (v) { return v.id === selectedId })[0]
     if (sel) arr[8] = sel
   }
-  return arr.slice(0, 9)
+  // Final dedup pass to be safe
+  var finalSeen = {}
+  var final = []
+  for (var f = 0; f < arr.length && final.length < 9; f++) {
+    if (!finalSeen[arr[f].id]) {
+      finalSeen[arr[f].id] = true
+      final.push(arr[f])
+    }
+  }
+  return final
 }
 
 export default function Builder({ onExit, recordAnswer }) {
@@ -129,9 +147,15 @@ export default function Builder({ onExit, recordAnswer }) {
       timeText: combination.timeText || selectedTimeText,
     }
     next[part] = id
-    if (part === 'verbId' && displayedVerbs.indexOf(verbs.filter(function (v) { return v.id === id })[0]) === -1) {
+    if (part === 'verbId') {
       var sel = verbs.filter(function (v) { return v.id === id })[0]
-      if (sel) setDisplayedVerbs(displayedVerbs.concat([sel]).slice(0, 9))
+      if (sel && displayedVerbs.indexOf(sel) === -1) {
+        var deduped = displayedVerbs.slice()
+        // remove last to make room, then add sel
+        if (deduped.length >= 9) deduped.pop()
+        deduped.push(sel)
+        setDisplayedVerbs(deduped)
+      }
     }
     setCombination(next)
     setResult(null)
