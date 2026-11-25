@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react'
+import { speak } from '../services/tts.js'
 import {
   subjects,
   verbs,
@@ -436,29 +437,12 @@ export default function Builder({ onExit, recordAnswer }) {
           className="secondary-button piece-copy"
           disabled={isPlaying}
           onClick={function () {
-            var text = built.parts.join(' ')
-            if (!text) return
             setIsPlaying(true)
-            var text = built.parts.join(' ')
-            if (!text) { setIsPlaying(false); return }
-            var url = 'https://translate.google.com/translate_tts?ie=UTF-8&tl=en&client=gtx&q=' + encodeURIComponent(text)
-            // Try Audio element first
-            var audio = new Audio(url)
-            audio.onended = function () { setIsPlaying(false) }
-            audio.onerror = function () {
-              // Fallback: open in new tab (user confirmed this works)
-              setIsPlaying(false)
-              window.open(url, '_blank')
-            }
-            var playPromise = audio.play()
-            if (playPromise && typeof playPromise.then === 'function') {
-              playPromise.catch(function () {
-                setIsPlaying(false)
-                window.open(url, '_blank')
-              })
-            }
-            // Safety timeout
-            setTimeout(function () { setIsPlaying(false) }, Math.max(2000, text.split(/\s+/).length * 500))          }}
+            speak(built.parts.join(' '), {
+              lang: 'en',
+              onEnd: function () { setIsPlaying(false) },
+            })
+          }}
         >
           {isPlaying ? '...' : '🔊'}
         </button>
