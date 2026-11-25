@@ -12,16 +12,11 @@
     <link rel="apple-touch-icon" href="./icons/icon-192.png" />
     <link rel="icon" href="./icons/icon-192.png" />
     <title>English Practice</title>
-    <!--
-      TTS (ResponsiveVoice) — optional.
-      Set VITE_RESPONSIVEVOICE_KEY in .env.local (gitignored) or in Vercel env vars.
-      Without a key the speak button will not produce sound.
-    -->
     <script src="https://cdn.responsivevoice.org/sdk/latest/responsivevoice.js"></script>
     <script>
       if (window.responsiveVoice) {
-        var rvKey = "%VITE_RESPONSIVEVOICE_KEY%";
-        if (rvKey && rvKey !== "YOUR_KEY" && rvKey.indexOf("VITE_") === -1) {
+        var rvKey = "%RESPONSIVEVOICE_KEY%";
+        if (rvKey && rvKey !== "YOUR_KEY" && rvKey.indexOf("RESPONSIVEVOICE_") === -1) {
           responsiveVoice.init({ "apiKey": rvKey });
         }
       }
