@@ -441,25 +441,13 @@ export default function Builder({ onExit, recordAnswer }) {
             setIsPlaying(true)
             var text = built.parts.join(' ')
             if (!text) { setIsPlaying(false); return }
-            // Load ResponsiveVoice if not present
-            function doSpeak() {
-              if (window.responsiveVoice) {
-                window.responsiveVoice.speak(text, 'UK English Female', {
-                  onend: function () { setIsPlaying(false) },
-                  onerror: function () { setIsPlaying(false) },
-                })
-              } else {
-                setIsPlaying(false)
-              }
-            }
-            if (!window.responsiveVoice) {
-              var s = document.createElement('script')
-              s.src = 'https://code.responsivevoice.org/responsivevoice.js'
-              s.onload = doSpeak
-              s.onerror = function () { setIsPlaying(false) }
-              document.head.appendChild(s)
+            if (window.responsiveVoice) {
+              window.responsiveVoice.speak(text, 'UK English Female', {
+                onend: function () { setIsPlaying(false) },
+                onerror: function () { setIsPlaying(false) },
+              })
             } else {
-              doSpeak()
+              setIsPlaying(false)
             }          }}
         >
           {isPlaying ? '...' : '🔊'}
