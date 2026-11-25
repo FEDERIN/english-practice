@@ -25,6 +25,21 @@ function keyFor(tenseId, combination, sentence) {
   ].join('|')
 }
 
+function shuffleVerbs(list, selectedId) {
+  var arr = list.slice()
+  for (var i = arr.length - 1; i > 0; i--) {
+    var j = Math.floor(Math.random() * (i + 1))
+    var t = arr[i]
+    arr[i] = arr[j]
+    arr[j] = t
+  }
+  if (selectedId && arr.slice(0, 9).indexOf(selectedId) === -1) {
+    var sel = list.filter(function (v) { return v.id === selectedId })[0]
+    if (sel) arr[8] = sel
+  }
+  return arr.slice(0, 9)
+}
+
 export default function Builder({ onExit, recordAnswer }) {
   var [tenseId, setTenseId] = useState('future_continuous')
   var [polarity, setPolarity] = useState('affirmative')
@@ -36,6 +51,9 @@ export default function Builder({ onExit, recordAnswer }) {
   var [lastKey, setLastKey] = useState('')
   var [copied, setCopied] = useState(false)
   var [piecesCopied, setPiecesCopied] = useState(false)
+  var [displayedVerbs, setDisplayedVerbs] = useState(function () {
+    return shuffleVerbs(verbs, (combination && combination.verbId) || 'study')
+  })
 
   var tense = tenses.filter(function (item) { return item.id === tenseId })[0]
   var subject = getSubject(combination.subjectId)
@@ -111,6 +129,10 @@ export default function Builder({ onExit, recordAnswer }) {
       timeText: combination.timeText || selectedTimeText,
     }
     next[part] = id
+    if (part === 'verbId' && displayedVerbs.indexOf(verbs.filter(function (v) { return v.id === id })[0]) === -1) {
+      var sel = verbs.filter(function (v) { return v.id === id })[0]
+      if (sel) setDisplayedVerbs(displayedVerbs.concat([sel]).slice(0, 9))
+    }
     setCombination(next)
     setResult(null)
     setLastKey('')
@@ -236,7 +258,7 @@ export default function Builder({ onExit, recordAnswer }) {
         <fieldset className="builder-panel">
           <legend>Verb</legend>
           <div className="option-list">
-            {availableVerbs.map(function (item) {
+            {displayedVerbs.map(function (item) {
               return (
                 <button
                   key={item.id}
@@ -250,6 +272,9 @@ export default function Builder({ onExit, recordAnswer }) {
               )
             })}
           </div>
+          <button type="button" className="secondary-button piece-copy" style={{ marginTop: '8px' }} onClick={function () { setDisplayedVerbs(shuffleVerbs(verbs, combination.verbId)) }}>
+            Refresh verbs
+          </button>
         </fieldset>
 
         <fieldset className="builder-panel">
