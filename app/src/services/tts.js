@@ -1,43 +1,46 @@
-// Text-to-speech using Google Translate's TTS endpoint (unofficial, no API key).
-// Plays inline with an <audio> element; if the browser blocks it, opens the
-// same URL in a new tab, which is known to play.
+// Text-to-speech using VoiceRSS (free tier, personal use).
+// The key is injected at build time from VOICERSS_KEY in .env.local or Vercel.
 
-var TTS_ENDPOINT = 'https://translate.google.com/translate_tts'
-var MAX_CHARS = 200
+var TTS_ENDPOINT = 'https://api.voicerss.org/'
+var MAX_CHARS = 500
+var VOICE_LANG = 'en-us'
+
+function apiKey() {
+  return typeof __VOICERSS_KEY__ !== 'undefined' ? __VOICERSS_KEY__ : ''
+}
 
 export function ttsUrl(text, lang) {
   var q = String(text || '').slice(0, MAX_CHARS)
-  return TTS_ENDPOINT + '?ie=UTF-8&tl=' + (lang || 'en') + '&client=gtx&q=' + encodeURIComponent(q)
+  return TTS_ENDPOINT +
+    '?key=' + encodeURIComponent(apiKey()) +
+    '&hl=' + (lang || VOICE_LANG) +
+    '&c=MP3' +
+    '&src=' + encodeURIComponent(q)
 }
 
 export function speak(text, options) {
   var opts = options || {}
   var clean = String(text || '').trim()
-  if (!clean) {
-    if (opts.onEnd) opts.onEnd()
-    return
-  }
-
-  var url = ttsUrl(clean, opts.lang)
   var done = false
+
   function finish() {
     if (done) return
     done = true
     if (opts.onEnd) opts.onEnd()
   }
 
-  function fallbackTab() {
-    window.open(url, '_blank')
+  if (!clean || !apiKey()) {
     finish()
+    return
   }
 
-  var audio = new Audio(url)
+  var audio = new Audio(ttsUrl(clean, opts.lang))
   audio.onended = finish
-  audio.onerror = fallbackTab
+  audio.onerror = finish
 
   var playing = audio.play()
   if (playing && typeof playing.catch === 'function') {
-    playing.catch(fallbackTab)
+    playing.catch(finish)
   }
 
   // Safety net so the button never stays disabled.
