@@ -1,3 +1,7 @@
+import { timeExpressionCategories } from './timeExpressionCategories.js'
+export { verbs } from './verbs.js'
+import { verbs } from './verbs.js'
+
 export { complements } from './complements.js'
 import { complements } from './complements.js'
 
@@ -13,26 +17,6 @@ export var subjects = [
   { id: 'she', text: 'She', person: 3, plural: false, bePresent: 'is', bePast: 'was', have: 'has' }
 ]
 
-export var verbs = [
-  { id: 'study', base: 'study', third: 'studies', ing: 'studying', past: 'studied', participle: 'studied' },
-  { id: 'work', base: 'work', third: 'works', ing: 'working', past: 'worked', participle: 'worked' },
-  { id: 'wait', base: 'wait', third: 'waits', ing: 'waiting', past: 'waited', participle: 'waited' },
-  { id: 'read', base: 'read', third: 'reads', ing: 'reading', past: 'read', participle: 'read' },
-  { id: 'travel', base: 'travel', third: 'travels', ing: 'travelling', past: 'travelled', participle: 'travelled' },
-  { id: 'write', base: 'write', third: 'writes', ing: 'writing', past: 'wrote', participle: 'written' },
-  { id: 'swim', base: 'swim', third: 'swims', ing: 'swimming', past: 'swam', participle: 'swum' },
-  { id: 'finish', base: 'finish', third: 'finishes', ing: 'finishing', past: 'finished', participle: 'finished' },
-  { id: 'call', base: 'call', third: 'calls', ing: 'calling', past: 'called', participle: 'called' },
-  { id: 'leave', base: 'leave', third: 'leaves', ing: 'leaving', past: 'left', participle: 'left' },
-  { id: 'depart', base: 'depart', third: 'departs', ing: 'departing', past: 'departed', participle: 'departed' },
-  { id: 'start', base: 'start', third: 'starts', ing: 'starting', past: 'started', participle: 'started' },
-  { id: 'open', base: 'open', third: 'opens', ing: 'opening', past: 'opened', participle: 'opened' },
-  { id: 'arrive', base: 'arrive', third: 'arrives', ing: 'arriving', past: 'arrived', participle: 'arrived' },
-]
-
-
-
-import { timeExpressionCategories } from './timeExpressionCategories.js'
 
 function slugify(text) {
   return String(text).toLowerCase().replace(/[^a-z0-9]+/g, '_').replace(/^_|_$/g, '')
@@ -59,7 +43,6 @@ export var timeExpressions = timeExpressionCategories.flatMap(function (cat) {
   })
 })
 
-export { timeExpressionCategories }
 
 
 export var tenses = [
@@ -589,3 +572,5 @@ export function randomCombination(tenseId) {
     complementId: Math.random() < 0.7 ? complementPool[Math.floor(Math.random() * complementPool.length)].id : 'none',
   }
 }
+
+export { timeExpressionCategories }
