@@ -47,8 +47,8 @@ check('builds a Future Continuous sentence', function () {
 
 check('accepts a correct and natural sentence', function () {
   var result = evaluate(
-    'future_continuous', 'we', 'study', 'next_week',
-    'We will be studying next week'
+    'future_continuous', 'we', 'study', 'this_time_next_week',
+    'We will be studying this time next week'
   )
   assert.equal(result.grammatical, true)
   assert.equal(result.natural, true)
@@ -71,7 +71,7 @@ check('separates grammar from naturalness: correct grammar + past time marker', 
   assert.equal(result.grammatical, true)
   assert.equal(result.combinationNatural, false)
   assert.equal(result.natural, false)
-  assert.match(result.naturalMessage, /past time/)
+  assert.match(result.naturalMessage, /completed period in the past/)
 })
 
 check('separates grammar from naturalness: habit marker with simple present', function () {
@@ -99,9 +99,9 @@ check('requires -s for third person singular in simple present', function () {
 })
 
 check('uses has with third person singular in present perfect', function () {
-  var result = evaluate('present_perfect', 'she', 'finish', 'already', 'She has already finished')
+  var result = evaluate('present_perfect', 'she', 'finish', 'since_2020', 'She has since 2020 finished')
   assert.equal(result.grammatical, false, 'word order differs from the fixed template')
-  var template = evaluate('present_perfect', 'she', 'finish', 'already', 'She has finished already')
+  var template = evaluate('present_perfect', 'she', 'finish', 'since_2020', 'She has finished since 2020')
   assert.equal(template.grammatical, true)
 })
 

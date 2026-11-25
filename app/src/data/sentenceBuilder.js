@@ -44,152 +44,37 @@ export var verbs = [
   { id: 'arrive', base: 'arrive', third: 'arrives', ing: 'arriving', past: 'arrived', participle: 'arrived' },
 ]
 
-export var timeExpressions = [
-  {
-    id: 'right_now',
-    text: 'right now',
-    preferred: ['presente_continuo', 'past_continuous', 'present_perfect_continuous'],
-    avoid: ['present_simple', 'simple_future', 'future_continuous', 'present_perfect', 'past_perfect', 'future_perfect', 'future_perfect_continuous'],
-    note: '“Right now” points to this moment, so a continuous tense is the natural choice.',
-  },
-  {
-    id: 'every_day',
-    text: 'every day',
-    preferred: ['present_simple', 'presente_continuo', 'simple_past', 'past_continuous'],
-    avoid: ['future_continuous', 'present_perfect', 'present_perfect_continuous', 'future_perfect', 'future_perfect_continuous'],
-    note: 'Habits and routines normally use simple present; continuous forms work for ongoing repeated actions.',
-  },
-  {
-    id: 'yesterday',
-    text: 'yesterday',
-    preferred: ['simple_past', 'past_continuous', 'past_perfect', 'past_perfect_continuous'],
-    avoid: ['present_perfect', 'simple_future', 'future_continuous', 'future_perfect', 'future_perfect_continuous', 'present_simple', 'presente_continuo'],
-    note: 'A finished past time such as “yesterday” needs a past tense.',
-  },
-  {
-    id: 'next_week',
-    text: 'next week',
-    preferred: ['simple_future', 'future_continuous', 'present_simple'],
-    avoid: ['future_perfect', 'past_perfect', 'past_continuous', 'simple_past', 'past_perfect_continuous', 'present_perfect', 'present_perfect_continuous'],
-    appliesTo: 'Present simple is for scheduled events with fixed times (trains, flights, meetings, openings). Future tenses are for personal plans and predictions.',
-    preferredVerbs: ['leave', 'depart', 'start', 'open', 'arrive'],
-    note: 'Future perfect normally needs “by next week” to show a deadline.',
-  },
-  {
-    id: 'tomorrow_at_eight',
-    text: 'tomorrow at eight',
-    preferred: ['future_continuous', 'simple_future'],
-    avoid: ['simple_past', 'past_continuous', 'present_simple', 'presente_continuo', 'present_perfect', 'present_perfect_continuous', 'past_perfect', 'past_perfect_continuous', 'future_perfect', 'future_perfect_continuous'],
-    note: 'A specific future moment works well with future continuous.',
-  },
-  {
-    id: 'by_friday',
-    text: 'by Friday',
-    preferred: ['future_perfect', 'past_perfect', 'present_perfect'],
-    avoid: ['simple_future', 'future_continuous', 'present_simple', 'presente_continuo', 'simple_past', 'past_continuous', 'present_perfect_continuous', 'past_perfect_continuous', 'future_perfect_continuous'],
-    note: '“By” signals completion before a deadline.',
-  },
-  {
-    id: 'for_two_hours',
-    text: 'for two hours',
-    preferred: ['present_perfect_continuous', 'past_perfect_continuous', 'future_perfect_continuous', 'present_perfect', 'past_perfect', 'future_perfect', 'presente_continuo', 'past_continuous', 'future_continuous'],
-    avoid: ['present_simple', 'simple_past', 'simple_future'],
-    note: '“For + a period of time” often describes duration.',
-  },
-  {
-    id: 'already',
-    text: 'already',
-    preferred: ['present_perfect', 'future_perfect', 'past_perfect'],
-    avoid: ['simple_past', 'future_continuous', 'present_simple', 'presente_continuo', 'past_continuous', 'present_perfect_continuous', 'past_perfect_continuous', 'future_perfect_continuous', 'simple_future'],
-    note: '“Already” is typical with perfect tenses.',
-  },
-  {
-    id: 'since_2020',
-    text: 'since 2020',
-    preferred: ['present_perfect', 'present_perfect_continuous', 'past_perfect', 'past_perfect_continuous'],
-    avoid: ['simple_past', 'simple_future', 'future_continuous', 'future_perfect', 'future_perfect_continuous', 'present_simple', 'presente_continuo', 'past_continuous'],
-    note: '“Since” marks a starting point and connects it to now or to a past reference.',
-  },
-  {
-    id: 'this_time_next_week',
-    text: 'this time next week',
-    preferred: ['future_continuous'],
-    avoid: ['simple_future', 'simple_past', 'present_simple', 'presente_continuo', 'present_perfect', 'present_perfect_continuous', 'past_perfect', 'past_perfect_continuous', 'future_perfect', 'future_perfect_continuous', 'past_continuous'],
-    note: 'This phrase points to an action in progress at a future moment.',
-  },
-  {
-    id: 'in_two_hours',
-    text: 'in two hours',
-    preferred: ['simple_future', 'future_perfect', 'future_continuous'],
-    avoid: ['present_simple', 'presente_continuo', 'simple_past', 'past_continuous', 'present_perfect', 'present_perfect_continuous', 'past_perfect', 'past_perfect_continuous', 'future_perfect_continuous'],
-    note: '“In two hours” says when something happens or when it will be done.',
-  },
-  {
-    id: 'every_morning',
-    text: 'every morning',
-    preferred: ['present_simple'],
-    avoid: ['simple_past', 'simple_future', 'future_continuous', 'present_perfect', 'present_perfect_continuous', 'past_perfect', 'past_perfect_continuous', 'future_perfect', 'future_perfect_continuous'],
-    note: 'Frequency expressions usually go with simple present for habits.',
-  },
-  {
-    id: 'every_afternoon',
-    text: 'every afternoon',
-    preferred: ['present_simple'],
-    avoid: ['simple_past', 'simple_future', 'future_continuous', 'present_perfect', 'present_perfect_continuous', 'past_perfect', 'past_perfect_continuous', 'future_perfect', 'future_perfect_continuous'],
-    note: 'Frequency expressions usually go with simple present for habits.',
-  },
-  {
-    id: 'every_evening',
-    text: 'every evening',
-    preferred: ['present_simple'],
-    avoid: ['simple_past', 'simple_future', 'future_continuous', 'present_perfect', 'present_perfect_continuous', 'past_perfect', 'past_perfect_continuous', 'future_perfect', 'future_perfect_continuous'],
-    note: 'Frequency expressions usually go with simple present for habits.',
-  },
-  {
-    id: 'every_night',
-    text: 'every night',
-    preferred: ['present_simple'],
-    avoid: ['simple_past', 'simple_future', 'future_continuous', 'present_perfect', 'present_perfect_continuous', 'past_perfect', 'past_perfect_continuous', 'future_perfect', 'future_perfect_continuous'],
-    note: 'Frequency expressions usually go with simple present for habits.',
-  },
-    {
-    id: 'every_week_month_year',
-    text: ['every week', 'every month', 'every year'],
-    preferred: ['present_simple'],
-    avoid: ['simple_past', 'simple_future', 'future_continuous', 'present_perfect', 'present_perfect_continuous', 'past_perfect', 'past_perfect_continuous', 'future_perfect', 'future_perfect_continuous'],
-    note: 'Frequency expressions usually go with simple present for habits.',
-  },
-  
-  
-  {
-    id: 'once_a_day',
-    text: 'once a day',
-    preferred: ['present_simple'],
-    avoid: ['simple_past', 'simple_future', 'future_continuous', 'present_perfect', 'present_perfect_continuous', 'past_perfect', 'past_perfect_continuous', 'future_perfect', 'future_perfect_continuous'],
-    note: 'Frequency expressions usually go with simple present for habits.',
-  },
-  {
-    id: 'twice_a_week',
-    text: 'twice a week',
-    preferred: ['present_simple'],
-    avoid: ['simple_past', 'simple_future', 'future_continuous', 'present_perfect', 'present_perfect_continuous', 'past_perfect', 'past_perfect_continuous', 'future_perfect', 'future_perfect_continuous'],
-    note: 'Frequency expressions usually go with simple present for habits.',
-  },
-  {
-    id: 'three_times_a_month',
-    text: 'three times a month',
-    preferred: ['present_simple'],
-    avoid: ['simple_past', 'simple_future', 'future_continuous', 'present_perfect', 'present_perfect_continuous', 'past_perfect', 'past_perfect_continuous', 'future_perfect', 'future_perfect_continuous'],
-    note: 'Frequency expressions usually go with simple present for habits.',
-  },
-  {
-    id: 'every_two_days',
-    text: 'every two days',
-    preferred: ['present_simple'],
-    avoid: ['simple_past', 'simple_future', 'future_continuous', 'present_perfect', 'present_perfect_continuous', 'past_perfect', 'past_perfect_continuous', 'future_perfect', 'future_perfect_continuous'],
-    note: 'Frequency expressions usually go with simple present for habits.',
-  },
-]
+
+
+import { timeExpressionCategories } from './timeExpressionCategories.js'
+
+function slugify(text) {
+  return String(text).toLowerCase().replace(/[^a-z0-9]+/g, '_').replace(/^_|_$/g, '')
+}
+
+export var timeExpressions = timeExpressionCategories.flatMap(function (cat) {
+  return cat.expressions.map(function (expr) {
+    var preferredVerbs = {}
+    if (cat.verbExamples) {
+      Object.keys(cat.verbExamples).forEach(function (tense) {
+        preferredVerbs[tense] = cat.verbExamples[tense]
+      })
+    }
+    return {
+      id: slugify(expr),
+      text: expr,
+      preferred: cat.preferred || [],
+      note: cat.note || '',
+      context: cat.context || '',
+      verbExamples: cat.verbExamples || {},
+      preferredVerbs: preferredVerbs,
+      categoryId: cat.id,
+    }
+  })
+})
+
+export { timeExpressionCategories }
+
 
 export var tenses = [
   {
@@ -629,15 +514,11 @@ export function evaluateSentence(tenseId, subject, verb, time, userSentence, pol
 
   var natural = true
   var naturalMessage = 'This combination sounds natural in English.'
-  var isPreferred = time.preferred.indexOf(tenseId) !== -1
-  var isAvoided = time.avoid.indexOf(tenseId) !== -1
+  var isPreferred = (time.preferred || []).indexOf(tenseId) !== -1
 
-  if (isAvoided) {
+  if (!isPreferred) {
     natural = false
-    naturalMessage = time.note
-  } else if (!isPreferred) {
-    natural = false
-    naturalMessage = 'This is understandable, but not the most natural pairing. ' + time.note
+    naturalMessage = 'This is understandable, but not the most natural pairing. ' + (time.note || '')
   }
 
   var formForPolarity = (tense.form && tense.form[polarity]) ? tense.form[polarity] : (tense.form && tense.form.affirmative ? tense.form.affirmative : tense.form)
@@ -696,7 +577,7 @@ export function randomCombination(tenseId) {
     return item.preferred.indexOf(tense.id) !== -1
   })
   var usableTimes = timeExpressions.filter(function (item) {
-    return item.avoid.indexOf(tense.id) === -1
+    return (item.preferred || []).indexOf(tense.id) !== -1
   })
   var times = preferredTimes.length ? preferredTimes : (usableTimes.length ? usableTimes : timeExpressions)
   var verbsWithoutRead = verbs.filter(function (item) {
@@ -714,6 +595,3 @@ export function randomCombination(tenseId) {
     complementId: Math.random() < 0.7 ? complementPool[Math.floor(Math.random() * complementPool.length)].id : 'none',
   }
 }
-
-
-export var timeExpressionCategories = [{"id":"daily_frequency","label":"Daily Frequency","ids":["every_day","every_morning","every_afternoon","every_evening","every_night"]},{"id":"periodic_frequency","label":"Periodic Frequency","ids":["every_week","every_month","every_year","every_two_days","every_week_month_year"]},{"id":"repeated_frequency","label":"Repeated Frequency","ids":["once_a_day","twice_a_week","three_times_a_month"]},{"id":"specific_past","label":"Specific Past Time","ids":["yesterday"]},{"id":"specific_future","label":"Specific Future Time","ids":["next_week"]},{"id":"duration","label":"Duration","ids":["for_two_hours"]},{"id":"starting_point","label":"Starting Point","ids":["since_2020"]},{"id":"deadline","label":"Deadline","ids":["by_friday"]},{"id":"present_moment","label":"Present Moment","ids":["right_now"]},{"id":"future_reference","label":"Future Reference","ids":["tomorrow_at_eight","this_time_next_week","in_two_hours"]},{"id":"already","label":"Already","ids":["already"]}]

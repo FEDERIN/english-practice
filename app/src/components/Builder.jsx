@@ -53,8 +53,9 @@ export default function Builder({ onExit, recordAnswer }) {
     combination.complementId = 'none'
     complement = getComplement('none')
   }
-  var availableVerbs = (time && time.preferredVerbs && tenseId === 'present_simple')
-    ? verbs.filter(function (item) { return time.preferredVerbs.indexOf(item.id) !== -1 })
+  var preferredVerbsForTense = (time && time.preferredVerbs) ? time.preferredVerbs[tenseId] : null
+  var availableVerbs = (preferredVerbsForTense && Array.isArray(preferredVerbsForTense))
+    ? verbs.filter(function (item) { return preferredVerbsForTense.indexOf(item.id) !== -1 })
     : verbs
 
 
@@ -68,13 +69,11 @@ export default function Builder({ onExit, recordAnswer }) {
   // If none are marked as preferred, fall back to the ones that are not
   // explicitly avoided.
   var preferred = timeExpressions.filter(function (item) {
-    return item.preferred.indexOf(tenseId) !== -1
+    return (item.preferred || []).indexOf(tenseId) !== -1
   })
   var availableTimes = preferred.length
     ? preferred
-    : timeExpressions.filter(function (item) {
-        return item.avoid.indexOf(tenseId) === -1
-      })
+    : timeExpressions
 
   if (!availableTimes.some(function (item) { return item.id === time.id })) {
     combination.timeId = availableTimes[Math.floor(Math.random() * availableTimes.length)].id
@@ -268,7 +267,7 @@ export default function Builder({ onExit, recordAnswer }) {
           <div className="time-categories">
             {timeExpressionCategories.map(function (cat) {
               var catTimes = availableTimes.filter(function (item) {
-                return cat.ids.indexOf(item.id) !== -1
+                return item.categoryId === cat.id
               })
               if (!catTimes.length) return null
               var options = catTimes.reduce(function (acc, item) {
