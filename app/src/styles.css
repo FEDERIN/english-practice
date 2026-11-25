@@ -933,3 +933,36 @@ h3 {
     gap: 5px;
   }
 }
+
+.legend-with-action {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 0;
+}
+
+.legend-refresh {
+  width: 30px;
+  height: 30px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--card);
+  color: var(--teal);
+  font-size: 18px;
+  font-weight: 700;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.legend-refresh:hover {
+  background: var(--teal);
+  color: #fff;
+}
+
+.divider {
+  height: 1px;
+  margin: 8px 0 12px;
+  background: var(--line);
+  border: 0;
+}

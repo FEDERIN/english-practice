@@ -324,7 +324,13 @@ export default function Builder({ onExit, recordAnswer }) {
         </fieldset>
 
         <fieldset className="builder-panel">
-          <legend>Verb</legend>
+          <legend className="legend-with-action">
+            <span>Verb</span>
+            <button type="button" className="legend-refresh" aria-label="Refresh verbs" title="Refresh verbs" onClick={function () { setDisplayedVerbs(shuffleVerbs(verbs, combination.verbId)) }}>
+              ↻
+            </button>
+          </legend>
+          <div className="divider"></div>
           <div className="option-list">
             {displayedVerbs.map(function (item) {
               return (
@@ -340,9 +346,6 @@ export default function Builder({ onExit, recordAnswer }) {
               )
             })}
           </div>
-          <button type="button" className="secondary-button piece-copy" style={{ marginTop: '8px' }} onClick={function () { setDisplayedVerbs(shuffleVerbs(verbs, combination.verbId)) }}>
-            Refresh verbs
-          </button>
         </fieldset>
 
         <fieldset className="builder-panel">
