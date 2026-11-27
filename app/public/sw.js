@@ -1,4 +1,4 @@
-var CACHE_NAME = 'english-practice-v4'
+var CACHE_NAME = 'english-practice-v5'
 var APP_SHELL = [
   './',
   './index.html',

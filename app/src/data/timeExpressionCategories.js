@@ -13,6 +13,9 @@ export const timeExpressionCategories = [
     preferred: ["present_simple"],
     context: "habitual_action",
     note: "Used to describe habits and daily routines.",
+    excludedVerbs: {
+      present_simple: ["meet"]
+    },
   },
   {
     id: "periodic_frequency",
@@ -28,6 +31,9 @@ export const timeExpressionCategories = [
     preferred: ["present_simple"],
     context: "recurring_action",
     note: "Used to describe actions that repeat at regular intervals.",
+    excludedVerbs: {
+      present_simple: ["meet"]
+    },
   },
   {
     id: "repeated_frequency",
@@ -40,6 +46,9 @@ export const timeExpressionCategories = [
     preferred: ["present_simple"],
     context: "repeated_action",
     note: "Used to specify how often an action is repeated.",
+    excludedVerbs: {
+      present_simple: ["meet"]
+    },
   },
   {
     id: "specific_past",

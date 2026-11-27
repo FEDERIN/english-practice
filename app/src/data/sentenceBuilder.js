@@ -530,6 +530,13 @@ export function evaluateSentence(tenseId, subject, verb, time, userSentence, pol
     if (!isPreferred) {
       natural = false
       naturalMessage = 'This is understandable, but not the most natural pairing. ' + (time.note || '')
+    } else {
+      var excluded = time.excludedVerbs ? time.excludedVerbs[tenseId] : null
+      if (Array.isArray(excluded) && excluded.length && excluded.indexOf(verb.id) !== -1) {
+        natural = false
+        naturalMessage = 'This is understandable, but not the most natural pairing. ' + (time.note || '') +
+          ' “' + verb.base + '” does not fit this time expression.'
+      }
     }
   } else {
     natural = true
