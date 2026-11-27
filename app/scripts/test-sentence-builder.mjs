@@ -13,6 +13,8 @@ import {
   buildSentence,
   evaluateSentence,
   randomCombination,
+  verbsForTime,
+  timesForVerb,
 } from '../src/data/sentenceBuilder.js'
 
 function evaluate(tenseId, subjectId, verbId, timeId, sentence) {
@@ -113,6 +115,41 @@ check('ai prompt asks for grammar and naturalness separately', function () {
   assert.match(result.aiPrompt, /Step 1: Judge only grammatical correctness/)
   assert.match(result.aiPrompt, /Step 2: Judge separately whether it sounds natural/)
   assert.match(result.aiPrompt, /Offline naturalness check: possibly unnatural/)
+})
+
+check('verbExamples acts as a whitelist for a time expression', function () {
+  var result = verbsForTime(getTime('right_now'), 'present_simple')
+  assert.ok(result.length > 0)
+  result.forEach(function (item) {
+    assert.ok(['need', 'want', 'know', 'understand', 'prefer', 'believe', 'like', 'love', 'hate', 'remember', 'mean', 'own', 'belong', 'have'].indexOf(item.id) !== -1)
+  })
+})
+
+check('excludedVerbs removes verbs without listing the rest', function () {
+  var result = verbsForTime(getTime('right_now'), 'present_continuous')
+  var ids = result.map(function (item) { return item.id })
+  assert.equal(ids.indexOf('know'), -1)
+  assert.equal(ids.indexOf('have'), -1)
+  assert.ok(ids.indexOf('work') !== -1)
+  assert.ok(ids.indexOf('study') !== -1)
+})
+
+check('timesForVerb drops expressions whose verbExamples whitelist does not match', function () {
+  var forStudy = timesForVerb('study', 'present_perfect')
+  var forFinish = timesForVerb('finish', 'present_perfect')
+  assert.equal(forStudy.some(function (item) { return item.id === 'as_of_now' }), false)
+  assert.equal(forFinish.some(function (item) { return item.id === 'as_of_now' }), true)
+})
+
+check('timesForVerb falls back instead of returning an empty list', function () {
+  var result = timesForVerb('know', 'present_continuous')
+  assert.ok(result.length > 0)
+})
+
+check('time expressions expose excludedVerbs for the selected tense', function () {
+  var rightNow = getTime('right_now')
+  assert.ok(Array.isArray(rightNow.excludedVerbs.present_continuous))
+  assert.equal(rightNow.excludedVerbs.present_continuous.indexOf('know') !== -1, true)
 })
 
 check('random combinations stay inside the available ids', function () {

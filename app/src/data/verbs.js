@@ -99,11 +99,3 @@ export var verbs = [
   { id: 'walk', base: 'walk', third: 'walks', ing: 'walking', past: 'walked', participle: 'walked' },
   { id: 'exercise', base: 'exercise', third: 'exercises', ing: 'exercising', past: 'exercised', participle: 'exercised' }
 ];
-
-
-
-import { timeExpressionCategories } from './timeExpressionCategories.js'
-
-function slugify(text) {
-  return String(text).toLowerCase().replace(/[^a-z0-9]+/g, '_').replace(/^_|_$/g, '')
-}

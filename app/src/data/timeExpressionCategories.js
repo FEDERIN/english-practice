@@ -158,15 +158,95 @@ export const timeExpressionCategories = [
       "at the moment",
       "currently",
       "at present",
-      "as of now",
-      "as of today",
     ],
     preferred: [
-      "presente_continuo",
+      "present_continuous",
       "present_simple",
     ],
     context: "current_situation",
-    note: "Used to describe current actions, situations and states.",
+    verbExamples: {
+      present_simple: [
+        "need",
+        "want",
+        "know",
+        "understand",
+        "prefer",
+        "believe",
+        "like",
+        "love",
+        "hate",
+        "remember",
+        "mean",
+        "own",
+        "belong",
+        "have"
+      ]
+    },
+    // State verbs do not normally take the continuous form, so instead of
+    // listing every possible action verb we exclude the state verbs.
+    excludedVerbs: {
+      present_continuous: [
+        "know",
+        "want",
+        "need",
+        "understand",
+        "prefer",
+        "believe",
+        "like",
+        "love",
+        "hate",
+        "remember",
+        "mean",
+        "own",
+        "belong",
+        "have"
+      ]
+    },
+    note: "Used to describe actions happening now and states or situations that are true at the present moment."
+  },
+  {
+    id: "current_reference",
+    label: "Current Reference",
+    expressions: [
+      "as of now",
+      "as of today",
+      "as of this moment",
+      "currently",
+      "at present"
+    ],
+    preferred: [
+      "present_simple",
+      "present_perfect",
+      "present_perfect_continuous"
+    ],
+    context: "current_status",
+    verbExamples: {
+      present_simple: [
+        "know",
+        "have",
+        "own",
+        "believe",
+        "need",
+        "want"
+      ],
+      present_perfect: [
+        "complete",
+        "finish",
+        "change",
+        "update",
+        "receive",
+        "achieve"
+      ],
+      present_perfect_continuous: [
+        "work",
+        "study",
+        "develop",
+        "learn",
+        "wait",
+        "prepare"
+      ]
+    },
+    note: "Used to describe current status, changes and situations up to the present reference point."
   },
   {
     id: "future_reference",

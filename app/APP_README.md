@@ -57,8 +57,10 @@ Edit `src/data/content.js`:
 Edit `src/data/sentenceBuilder.js` to extend the Sentence Builder:
 
 - `subjects` — allowed subjects, with their `am/is/are`, `was/were` and `have/has` forms.
-- `verbs` — base, third-person, `-ing`, past and participle forms.
-- `timeExpressions` — each one lists `preferred` and `avoid` tense ids plus a short `note`. This is what drives the offline naturalness check.
+- `verbs` — base, third-person, `-ing`, past and participle forms (`src/data/verbs.js`).
+- `timeExpressions` — each one lists `preferred` tense ids plus a short `note`. This is what drives the offline naturalness check.
+- `verbExamples` (in `src/data/timeExpressionCategories.js`) — per-tense allow-list: when a verb is listed for a tense, that expression only appears for those verbs.
+- `excludedVerbs` (same file) — per-tense deny-list: verbs listed here are removed for that expression. Use it when fewer verbs need excluding than including. Both filters can be combined; exclusions are applied after the allow-list.
 - `tenses` — rule, form, use, example and exceptions for each tense.
 
 Add new practice sentences to the `.md` notes and use the `english-practice` MCP tools (`generate_exercise` + `check_answer`) to produce more fill-in-the-blank items.
@@ -70,5 +72,5 @@ The Sentence Builder deliberately returns two independent verdicts. A sentence c
 ## Notes
 
 - UI language is English; vocabulary meanings stay in Spanish because that is what the notes contain.
-- The service worker cache name is `english-practice-v2`. Bump it in `public/sw.js` when you deploy a new version so iPads refresh their cached files.
+- The service worker cache name is `english-practice-v3`. Bump it in `public/sw.js` when you deploy a new version so iPads refresh their cached files.
 - **TTS (optional):** the 🔊 button uses VoiceRSS. Get a free key at https://www.voicerss.org/ and set VOICERSS_KEY in .env.local (local) or as a Vercel environment variable. Without a key the button stays silent. Do not commit your key.

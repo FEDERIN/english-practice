@@ -4,7 +4,6 @@ import {
   subjects,
   verbs,
   timeExpressions,
-  timeExpressionCategories,
   tenses,
   complements,
   getSubject,
@@ -14,6 +13,8 @@ import {
   buildSentence,
   evaluateSentence,
   randomCombination,
+  verbsForTime,
+  timesForVerb,
 } from '../data/sentenceBuilder.js'
 
 function keyFor(tenseId, combination, sentence) {
@@ -137,10 +138,7 @@ export default function Builder({ onExit, recordAnswer }) {
     combination.complementId = 'none'
     complement = getComplement('none')
   }
-  var preferredVerbsForTense = (time && time.preferredVerbs) ? time.preferredVerbs[tenseId] : null
-  var availableVerbs = (preferredVerbsForTense && Array.isArray(preferredVerbsForTense))
-    ? verbs.filter(function (item) { return preferredVerbsForTense.indexOf(item.id) !== -1 })
-    : verbs
+  var availableVerbs = verbsForTime(time, tenseId)
 
 
   if (availableVerbs.length && !availableVerbs.some(function (item) { return item.id === combination.verbId })) {
@@ -149,20 +147,9 @@ export default function Builder({ onExit, recordAnswer }) {
   }
   var built = buildSentence(tenseId, subject, verb, time, polarity, complement, selectedTimeText)
 
-  // Only show time expressions that actually apply to the selected tense.
-  // If none are marked as preferred, fall back to the ones that are not
-  // explicitly avoided.
-  var preferred = timeExpressions.filter(function (item) {
-    return (item.preferred || []).indexOf(tenseId) !== -1
-  })
-  var pool = preferred.length ? preferred : timeExpressions
-  // Filter by verb using verbExamples for the selected tense (if defined)
-  var verbFiltered = pool.filter(function (item) {
-    var ve = item.verbExamples ? item.verbExamples[tenseId] : null
-    if (!ve || !Array.isArray(ve) || !ve.length) return true
-    return ve.indexOf(verb.id) !== -1
-  })
-  var availableTimes = verbFiltered.length ? verbFiltered : pool
+  // Only show time expressions that actually apply to the selected verb and
+  // tense. verbExamples is a whitelist; excludedVerbs removes expressions.
+  var availableTimes = timesForVerb(verb.id, tenseId)
 
   if (time && !availableTimes.some(function (item) { return item.id === time.id })) {
     combination.timeId = availableTimes[Math.floor(Math.random() * availableTimes.length)].id

@@ -37,11 +37,49 @@ export var timeExpressions = timeExpressionCategories.flatMap(function (cat) {
       note: cat.note || '',
       context: cat.context || '',
       verbExamples: cat.verbExamples || {},
+      // Negative filter: verbs listed for a tense are hidden for this
+      // expression. Use it when fewer verbs need excluding than including.
+      excludedVerbs: cat.excludedVerbs || {},
       preferredVerbs: preferredVerbs,
       categoryId: cat.id,
     }
   })
 })
+
+// Verbs offered for a time expression: the positive list (verbExamples) acts
+// as a whitelist, the negative list (excludedVerbs) removes verbs from it.
+export function verbsForTime(time, tenseId) {
+  var allowed = time && time.verbExamples ? time.verbExamples[tenseId] : null
+  var excluded = time && time.excludedVerbs ? time.excludedVerbs[tenseId] : null
+
+  var pool = verbs
+  if (Array.isArray(allowed) && allowed.length) {
+    pool = pool.filter(function (item) { return allowed.indexOf(item.id) !== -1 })
+  }
+  var base = pool
+  if (Array.isArray(excluded) && excluded.length) {
+    pool = pool.filter(function (item) { return excluded.indexOf(item.id) === -1 })
+  }
+  // Never leave the picker empty because of a bad exclusion list.
+  return pool.length ? pool : (base.length ? base : verbs)
+}
+
+// Time expressions offered for a verb and tense. verbExamples is a whitelist,
+// excludedVerbs removes expressions for that verb.
+export function timesForVerb(verbId, tenseId) {
+  var preferred = timeExpressions.filter(function (item) {
+    return (item.preferred || []).indexOf(tenseId) !== -1
+  })
+  var pool = preferred.length ? preferred : timeExpressions
+  var filtered = pool.filter(function (item) {
+    var allowed = item.verbExamples ? item.verbExamples[tenseId] : null
+    if (Array.isArray(allowed) && allowed.length && allowed.indexOf(verbId) === -1) return false
+    var excluded = item.excludedVerbs ? item.excludedVerbs[tenseId] : null
+    if (Array.isArray(excluded) && excluded.length && excluded.indexOf(verbId) !== -1) return false
+    return true
+  })
+  return filtered.length ? filtered : pool
+}
 
 
 
