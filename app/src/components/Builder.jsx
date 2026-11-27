@@ -113,6 +113,7 @@ export default function Builder({ onExit, recordAnswer }) {
   var [piecesCopied, setPiecesCopied] = useState(false)
   var [isPlaying, setIsPlaying] = useState(false)
   var [verbSearch, setVerbSearch] = useState('')
+  var [infinitiveVerbSearch, setInfinitiveVerbSearch] = useState('')
   var [displayedVerbs, setDisplayedVerbs] = useState(function () {
     return shuffleVerbs(verbs, (combination && combination.verbId) || 'study')
   })
@@ -236,6 +237,21 @@ export default function Builder({ onExit, recordAnswer }) {
       next.push(match)
       return next
     })
+  }
+
+  function handleInfinitiveVerbSearch(term) {
+    setInfinitiveVerbSearch(term)
+    var q = String(term || '').trim().toLowerCase()
+    if (!q) return
+    var pool = verbs
+    var match =
+      pool.filter(function (v) { return v.id.toLowerCase() === q })[0] ||
+      pool.filter(function (v) { return v.id.toLowerCase().indexOf(q) === 0 })[0] ||
+      pool.filter(function (v) { return v.base.toLowerCase().indexOf(q) === 0 })[0] ||
+      pool.filter(function (v) { return v.id.toLowerCase().indexOf(q) !== -1 || v.base.toLowerCase().indexOf(q) !== -1 })[0] ||
+      null
+    if (!match) return
+    setPart('infinitiveVerbId', match.id)
   }
 
   function reset(tenseToUse) {
@@ -450,6 +466,13 @@ export default function Builder({ onExit, recordAnswer }) {
             <legend className="legend-empty"></legend>
             <div className="divider">
               <span className="divider-title">Infinitive verb</span>
+              <input
+                type="search"
+                className="verb-search"
+                placeholder="Search verb..."
+                value={infinitiveVerbSearch}
+                onChange={function (event) { handleInfinitiveVerbSearch(event.target.value) }}
+              />
               <button type="button" className="legend-refresh" aria-label="Refresh infinitive verbs" title="Refresh infinitive verbs" onClick={function () { setDisplayedInfinitiveVerbs(shuffleVerbs(verbs, combination.infinitiveVerbId || verbs[0].id)) }}>
                 ↻
               </button>
