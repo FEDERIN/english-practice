@@ -457,17 +457,14 @@ export default function Builder({ onExit, recordAnswer }) {
       <div className="piece-row" aria-label="Selected pieces">
         <span className="piece-label">Selected pieces</span>
         {built.parts.map(function (part, index) {
+          var isLast = index === built.parts.length - 1
           return (
             <span key={index} className="piece">
               {part}
+              {isQuestion && isLast ? '?' : ''}
             </span>
           )
         })}
-        {isQuestion ? (
-          <span key="qmark" className="piece">
-            ?
-          </span>
-        ) : null}
         <button
           type="button"
           className="secondary-button piece-copy"
