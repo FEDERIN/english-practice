@@ -181,6 +181,13 @@ export default function Builder({ onExit, recordAnswer }) {
   }
   var availableVerbs = verbsForTime(time, tenseId)
 
+  // Stative verbs do not take continuous forms; hide them for continuous tenses.
+  var continuousTenses = ['presente_continuo', 'past_continuous', 'future_continuous', 'present_perfect_continuous', 'past_perfect_continuous', 'future_perfect_continuous']
+  if (continuousTenses.indexOf(tenseId) !== -1) {
+    var nonStative = availableVerbs.filter(function (item) { return !item.stative })
+    if (nonStative.length) availableVerbs = nonStative
+  }
+
 
   if (availableVerbs.length && !availableVerbs.some(function (item) { return item.id === combination.verbId })) {
     combination.verbId = availableVerbs[0].id
@@ -445,7 +452,12 @@ export default function Builder({ onExit, recordAnswer }) {
             </button>
           </div>
           <div className="option-list">
-            {displayedVerbs.map(function (item) {
+            {displayedVerbs
+              .filter(function (item) {
+                if (continuousTenses.indexOf(tenseId) === -1) return true
+                return !item.stative
+              })
+              .map(function (item) {
               return (
                 <button
                   key={item.id}
