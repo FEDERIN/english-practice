@@ -78,15 +78,15 @@ function shuffleTimes(list, selectedId, selectedText) {
     arr[j] = t
   }
   if (selectedId) {
-    var selInArr = arr.slice(0, 20).some(function (x) { return x.id === selectedId })
+    var selInArr = arr.slice(0, 14).some(function (x) { return x.id === selectedId })
     if (!selInArr) {
       var sel = unique.filter(function (x) { return x.id === selectedId })[0]
-      if (sel) arr[19] = sel
+      if (sel) arr[13] = sel
     }
   }
   var final = []
   var finalSeen = {}
-  for (var f = 0; f < arr.length && final.length < 20; f++) {
+  for (var f = 0; f < arr.length && final.length < 14; f++) {
     var k = arr[f].id + '|' + (Array.isArray(arr[f].text) ? arr[f].text.join(',') : arr[f].text)
     if (!finalSeen[k]) {
       finalSeen[k] = true
