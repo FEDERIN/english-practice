@@ -147,6 +147,8 @@ export default function Builder({ onExit, recordAnswer }) {
     verb = getVerb(combination.verbId)
   }
   var built = buildSentence(tenseId, subject, verb, time, polarity, complement, selectedTimeText)
+  var isQuestion = polarity === 'question' || polarity === 'question_negative'
+  var piecesText = built.parts.join(' ') + (isQuestion ? '?' : '')
 
   // Only show time expressions that actually apply to the selected verb and
   // tense. verbExamples is a whitelist; excludedVerbs removes expressions.
@@ -461,13 +463,18 @@ export default function Builder({ onExit, recordAnswer }) {
             </span>
           )
         })}
+        {isQuestion ? (
+          <span key="qmark" className="piece">
+            ?
+          </span>
+        ) : null}
         <button
           type="button"
           className="secondary-button piece-copy"
           disabled={isPlaying}
           onClick={function () {
             setIsPlaying(true)
-            speak(built.parts.join(' '), {
+            speak(piecesText, {
               lang: 'en',
               onEnd: function () { setIsPlaying(false) },
             })
@@ -479,7 +486,7 @@ export default function Builder({ onExit, recordAnswer }) {
           type="button"
           className="secondary-button piece-copy"
           onClick={function () {
-            var text = built.parts.join(' ')
+            var text = piecesText
             function fallback() {
               var area = document.createElement('textarea')
               area.value = text
