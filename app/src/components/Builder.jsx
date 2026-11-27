@@ -465,7 +465,7 @@ export default function Builder({ onExit, recordAnswer }) {
           <fieldset className="builder-panel">
             <legend className="legend-empty"></legend>
             <div className="divider">
-              <span className="divider-title">Infinitive verb</span>
+              <span className="divider-title">Inf verb</span>
               <input
                 type="search"
                 className="verb-search"
