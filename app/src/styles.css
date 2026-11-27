@@ -34,7 +34,9 @@ body {
 }
 
 button,
-input {
+input,
+select,
+textarea {
   font: inherit;
 }
 
@@ -43,7 +45,9 @@ button {
 }
 
 button:focus,
-input:focus {
+input:focus,
+select:focus,
+textarea:focus {
   outline: 3px solid rgba(47, 125, 120, 0.35);
   outline-offset: 2px;
 }
@@ -633,14 +637,16 @@ h3 {
 }
 
 .select-input {
-  min-height: 46px;
+  min-height: 48px;
   min-width: 220px;
   flex: 1 1 240px;
-  padding: 9px 12px;
+  padding: 10px 14px;
   border: 1px solid var(--line);
   border-radius: 12px;
   background: #fff;
   color: var(--ink);
+  font-size: 18px;
+  line-height: 1.35;
 }
 
 .rule-strip {
