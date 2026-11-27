@@ -291,6 +291,20 @@ function isThirdSingular(subject) {
   return subject.person === 3 && !subject.plural
 }
 
+function negateAux(aux) {
+  var a = String(aux || '').toLowerCase()
+  if (a === 'is') return "isn't"
+  if (a === 'are') return "aren't"
+  if (a === 'am') return "aren't"
+  if (a === 'was') return "wasn't"
+  if (a === 'were') return "weren't"
+  if (a === 'has') return "hasn't"
+  if (a === 'have') return "haven't"
+  if (a === 'had') return "hadn't"
+  if (a === 'will') return "won't"
+  return a + " not"
+}
+
 export function verbPhrase(tenseId, subject, verb) {
   switch (tenseId) {
     case 'present_simple':
@@ -369,12 +383,6 @@ export function buildSentence(tenseId, subject, verb, time, polarity, complement
       parts = [isThirdSingular(subject) ? "Does" : "Do", subjectValue, verb.base];
       if (complement) parts.push(complement);
       parts.push(resolvedTimeText);
-    } else if (tenseId === "presente_continuo") {
-      var aux = subject.bePresent.charAt(0).toUpperCase() + subject.bePresent.slice(1);
-      text = aux + " " + subject.text.toLowerCase() + " " + verb.ing + (complement ? " " + complement : "") + (resolvedTimeText ? " " + resolvedTimeText : "") + "?";
-      parts = [aux, subject.text, verb.ing];
-      if (complement) parts.push(complement);
-      parts.push(resolvedTimeText);
     } else if (tenseId === "simple_past") {
       let subjectValue = subject.text != 'I' ? subject.text.toLowerCase() : 'I';
       text = "Did " + subjectValue + " " + verb.base + (complement ? " " + complement : "") + (resolvedTimeText ? " " + resolvedTimeText : "") + "?";
@@ -382,8 +390,15 @@ export function buildSentence(tenseId, subject, verb, time, polarity, complement
       if (complement) parts.push(complement);
       parts.push(resolvedTimeText);
     } else {
-      text = "Will " + subject.text.toLowerCase() + " " + verb.base + (complement ? " " + complement : "") + (resolvedTimeText ? " " + resolvedTimeText : "") + "?";
-      parts = ["Will", subject.text, verb.base];
+      // Invert the first auxiliary of the verb phrase for every other tense.
+      var qWords = middle.split(" ");
+      var qAux = qWords[0];
+      var qRest = qWords.slice(1).join(" ");
+      var qAuxCap = qAux.charAt(0).toUpperCase() + qAux.slice(1);
+      var qSubject = subject.text != 'I' ? subject.text.toLowerCase() : 'I';
+      text = qAuxCap + " " + qSubject + (qRest ? " " + qRest : "") + (complement ? " " + complement : "") + (resolvedTimeText ? " " + resolvedTimeText : "") + "?";
+      parts = [qAuxCap, subject.text];
+      if (qRest) parts.push(qRest);
       if (complement) parts.push(complement);
       parts.push(resolvedTimeText);
     }
@@ -395,12 +410,6 @@ export function buildSentence(tenseId, subject, verb, time, polarity, complement
       parts = [isThirdSingular(subject) ? "Doesn't" : "Don't", subjectValue, verb.base];
       if (complement) parts.push(complement);
       parts.push(resolvedTimeText);
-    } else if (tenseId === "presente_continuo") {
-      var aux = (subject.bePresent === 'is' ? "Isn't" : (subject.bePresent === 'are' ? "Aren't" : "Aren't"));
-      text = aux + " " + subject.text.toLowerCase() + " " + verb.ing + (complement ? " " + complement : "") + (resolvedTimeText ? " " + resolvedTimeText : "") + "?";
-      parts = [aux, subject.text, verb.ing];
-      if (complement) parts.push(complement);
-      parts.push(resolvedTimeText);
     } else if (tenseId === "simple_past") {
       let subjectValue = subject.text != 'I' ? subject.text.toLowerCase() : 'I';
       text = "Didn't " + subjectValue + " " + verb.base + (complement ? " " + complement : "") + (resolvedTimeText ? " " + resolvedTimeText : "") + "?";
@@ -408,8 +417,15 @@ export function buildSentence(tenseId, subject, verb, time, polarity, complement
       if (complement) parts.push(complement);
       parts.push(resolvedTimeText);
     } else {
-      text = "Won't " + subject.text.toLowerCase() + " " + verb.base + (complement ? " " + complement : "") + (resolvedTimeText ? " " + resolvedTimeText : "") + "?";
-      parts = ["Won't", subject.text, verb.base];
+      var nWords = middle.split(" ");
+      var nAux = nWords[0];
+      var nRest = nWords.slice(1).join(" ");
+      var nNeg = negateAux(nAux);
+      var nNegCap = nNeg.charAt(0).toUpperCase() + nNeg.slice(1);
+      var nSubject = subject.text != 'I' ? subject.text.toLowerCase() : 'I';
+      text = nNegCap + " " + nSubject + (nRest ? " " + nRest : "") + (complement ? " " + complement : "") + (resolvedTimeText ? " " + resolvedTimeText : "") + "?";
+      parts = [nNegCap, subject.text];
+      if (nRest) parts.push(nRest);
       if (complement) parts.push(complement);
       parts.push(resolvedTimeText);
     }
