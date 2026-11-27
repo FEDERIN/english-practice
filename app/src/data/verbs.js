@@ -94,14 +94,14 @@ export var verbs = [
   { id: 'invite', base: 'invite', third: 'invites', ing: 'inviting', past: 'invited', participle: 'invited' },
 
   // Infinitive-taking verbs (want, need, hope, plan, decide, expect, promise, agree, refuse, would like)
-  { id: 'hope', base: 'hope', third: 'hopes', ing: 'hoping', past: 'hoped', participle: 'hoped', takesInfinitive: true },
-  { id: 'plan', base: 'plan', third: 'plans', ing: 'planning', past: 'planned', participle: 'planned', takesInfinitive: true },
-  { id: 'decide', base: 'decide', third: 'decides', ing: 'deciding', past: 'decided', participle: 'decided', takesInfinitive: true },
-  { id: 'expect', base: 'expect', third: 'expects', ing: 'expecting', past: 'expected', participle: 'expected', takesInfinitive: true },
-  { id: 'promise', base: 'promise', third: 'promises', ing: 'promising', past: 'promised', participle: 'promised', takesInfinitive: true },
-  { id: 'agree', base: 'agree', third: 'agrees', ing: 'agreeing', past: 'agreed', participle: 'agreed', takesInfinitive: true },
-  { id: 'refuse', base: 'refuse', third: 'refuses', ing: 'refusing', past: 'refused', participle: 'refused', takesInfinitive: true },
-  { id: 'would_like', base: 'would like', third: 'would like', ing: 'would be liking', past: 'would have liked', participle: 'would have liked', takesInfinitive: true, modal: true, stative: true },
+  { id: 'hope', base: 'hope', third: 'hopes', ing: 'hoping', past: 'hoped', participle: 'hoped', takesInfinitive: true, infinitiveExcluded: ['want', 'need', 'own', 'belong', 'mean', 'prefer', 'hate'] },
+  { id: 'plan', base: 'plan', third: 'plans', ing: 'planning', past: 'planned', participle: 'planned', takesInfinitive: true, infinitiveExcluded: ['want', 'need', 'own', 'belong', 'mean', 'prefer', 'hate'] },
+  { id: 'decide', base: 'decide', third: 'decides', ing: 'deciding', past: 'decided', participle: 'decided', takesInfinitive: true, infinitiveExcluded: ['want', 'need', 'own', 'belong', 'mean', 'prefer', 'hate'] },
+  { id: 'expect', base: 'expect', third: 'expects', ing: 'expecting', past: 'expected', participle: 'expected', takesInfinitive: true, infinitiveExcluded: ['want', 'need', 'own', 'belong', 'mean', 'prefer', 'hate'] },
+  { id: 'promise', base: 'promise', third: 'promises', ing: 'promising', past: 'promised', participle: 'promised', takesInfinitive: true, infinitiveExcluded: ['want', 'need', 'own', 'belong', 'mean', 'prefer', 'hate'] },
+  { id: 'agree', base: 'agree', third: 'agrees', ing: 'agreeing', past: 'agreed', participle: 'agreed', takesInfinitive: true, infinitiveExcluded: ['want', 'need', 'own', 'belong', 'mean', 'prefer', 'hate'] },
+  { id: 'refuse', base: 'refuse', third: 'refuses', ing: 'refusing', past: 'refused', participle: 'refused', takesInfinitive: true, infinitiveExcluded: ['want', 'need', 'own', 'belong', 'mean', 'prefer', 'hate'] },
+  { id: 'would_like', base: 'would like', third: 'would like', ing: 'would be liking', past: 'would have liked', participle: 'would have liked', takesInfinitive: true, modal: true, stative: true, infinitiveExcluded: ['want', 'need', 'own', 'belong', 'mean', 'prefer', 'hate'] },
 
   // Additional daily activities
   { id: 'sleep', base: 'sleep', third: 'sleeps', ing: 'sleeping', past: 'slept', participle: 'slept' },
@@ -111,8 +111,8 @@ export var verbs = [
 
   // Copula (only used as an infinitive: "want to be a doctor")
   { id: 'be', base: 'be', third: 'is', ing: 'being', past: 'was', participle: 'been', infinitiveOnly: true },
-  { id: 'need', base: 'need', third: 'needs', ing: 'needing', past: 'needed', participle: 'needed', takesInfinitive: true, stative: true},
-  { id: 'want', base: 'want', third: 'wants', ing: 'wanting', past: 'wanted', participle: 'wanted', takesInfinitive: true, stative: true},
+  { id: 'need', base: 'need', third: 'needs', ing: 'needing', past: 'needed', participle: 'needed', takesInfinitive: true, stative: true, infinitiveExcluded: ['want', 'need', 'own', 'belong', 'mean', 'prefer', 'hate'] },
+  { id: 'want', base: 'want', third: 'wants', ing: 'wanting', past: 'wanted', participle: 'wanted', takesInfinitive: true, stative: true, infinitiveExcluded: ['want', 'need', 'own', 'belong', 'mean', 'prefer', 'hate'] },
   { id: 'know', base: 'know', third: 'knows', ing: 'knowing', past: 'knew', participle: 'known', stative: true},
   { id: 'prefer', base: 'prefer', third: 'prefers', ing: 'preferring', past: 'preferred', participle: 'preferred', stative: true},
   { id: 'believe', base: 'believe', third: 'believes', ing: 'believing', past: 'believed', participle: 'believed', stative: true},
