@@ -455,6 +455,24 @@ export default function Builder({ onExit, recordAnswer }) {
               </button>
             </div>
             <div className="option-list">
+              <button
+                type="button"
+                className={'option-button' + (!combination.infinitiveVerbId ? ' is-active' : '')}
+                onClick={function () {
+                  setCombination(function (prev) {
+                    return {
+                      subjectId: prev.subjectId,
+                      verbId: prev.verbId,
+                      timeId: prev.timeId,
+                      complementId: prev.complementId || 'none',
+                      timeText: prev.timeText,
+                      infinitiveVerbId: null,
+                    }
+                  })
+                }}
+              >
+                none
+              </button>
               {displayedInfinitiveVerbs.map(function (item) {
                 return (
                   <button
