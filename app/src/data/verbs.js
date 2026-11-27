@@ -93,7 +93,7 @@ export var verbs = [
   { id: 'meet', base: 'meet', third: 'meets', ing: 'meeting', past: 'met', participle: 'met' },
   { id: 'invite', base: 'invite', third: 'invites', ing: 'inviting', past: 'invited', participle: 'invited' },
 
-  // Infinitive-taking verbs (want, need, hope, plan, decide, expect, promise, agree, refuse)
+  // Infinitive-taking verbs (want, need, hope, plan, decide, expect, promise, agree, refuse, would like)
   { id: 'hope', base: 'hope', third: 'hopes', ing: 'hoping', past: 'hoped', participle: 'hoped', takesInfinitive: true },
   { id: 'plan', base: 'plan', third: 'plans', ing: 'planning', past: 'planned', participle: 'planned', takesInfinitive: true },
   { id: 'decide', base: 'decide', third: 'decides', ing: 'deciding', past: 'decided', participle: 'decided', takesInfinitive: true },
@@ -101,6 +101,7 @@ export var verbs = [
   { id: 'promise', base: 'promise', third: 'promises', ing: 'promising', past: 'promised', participle: 'promised', takesInfinitive: true },
   { id: 'agree', base: 'agree', third: 'agrees', ing: 'agreeing', past: 'agreed', participle: 'agreed', takesInfinitive: true },
   { id: 'refuse', base: 'refuse', third: 'refuses', ing: 'refusing', past: 'refused', participle: 'refused', takesInfinitive: true },
+  { id: 'would_like', base: 'would like', third: 'would like', ing: 'would be liking', past: 'would have liked', participle: 'would have liked', takesInfinitive: true, modal: true },
 
   // Additional daily activities
   { id: 'sleep', base: 'sleep', third: 'sleeps', ing: 'sleeping', past: 'slept', participle: 'slept' },

@@ -306,6 +306,7 @@ function negateAux(aux) {
 }
 
 export function verbPhrase(tenseId, subject, verb) {
+  if (verb && verb.modal) return 'would like'
   switch (tenseId) {
     case 'present_simple':
       return isThirdSingular(subject) ? verb.third : verb.base
@@ -355,7 +356,9 @@ export function buildSentence(tenseId, subject, verb, time, polarity, complement
   }
 
   if (polarity === "negative") {
-    if (tenseId === "present_simple") {
+    if (verb && verb.modal) {
+      middle = "wouldn't like";
+    } else if (tenseId === "present_simple") {
       middle = (isThirdSingular(subject) ? "doesn't" : "don't") + " " + verb.base;
     } else if (tenseId === "presente_continuo") {
       middle = subject.bePresent + " not " + verb.ing;
@@ -380,7 +383,12 @@ export function buildSentence(tenseId, subject, verb, time, polarity, complement
     parts.push(resolvedTimeText);
   } else if (polarity === "question") {
     let qSubject = subject.text != 'I' ? subject.text.toLowerCase() : 'I';
-    if (tenseId === "present_simple") {
+    if (verb && verb.modal) {
+      text = "Would " + qSubject + " like" + infSuffix + (complement ? " " + complement : "") + (resolvedTimeText ? " " + resolvedTimeText : "") + "?";
+      parts = ["Would", subject.text, "like"].concat(infPieces);
+      if (complement) parts.push(complement);
+      parts.push(resolvedTimeText);
+    } else if (tenseId === "present_simple") {
       text = (isThirdSingular(subject) ? "Does" : "Do") + " " + qSubject + " " + verb.base + infSuffix + (complement ? " " + complement : "") + (resolvedTimeText ? " " + resolvedTimeText : "") + "?";
       parts = [isThirdSingular(subject) ? "Does" : "Do", qSubject, verb.base].concat(infPieces);
       if (complement) parts.push(complement);
@@ -406,7 +414,12 @@ export function buildSentence(tenseId, subject, verb, time, polarity, complement
     middle = parts.join(" ");
   } else if (polarity === "question_negative") {
     let qSubject = subject.text != 'I' ? subject.text.toLowerCase() : 'I';
-    if (tenseId === "present_simple") {
+    if (verb && verb.modal) {
+      text = "Wouldn't " + qSubject + " like" + infSuffix + (complement ? " " + complement : "") + (resolvedTimeText ? " " + resolvedTimeText : "") + "?";
+      parts = ["Wouldn't", subject.text, "like"].concat(infPieces);
+      if (complement) parts.push(complement);
+      parts.push(resolvedTimeText);
+    } else if (tenseId === "present_simple") {
       text = (isThirdSingular(subject) ? "Doesn't" : "Don't") + " " + qSubject + " " + verb.base + infSuffix + (complement ? " " + complement : "") + (resolvedTimeText ? " " + resolvedTimeText : "") + "?";
       parts = [isThirdSingular(subject) ? "Doesn't" : "Don't", qSubject, verb.base].concat(infPieces);
       if (complement) parts.push(complement);

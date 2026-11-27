@@ -187,6 +187,21 @@ check('time expression data references only known ids and has no duplicates', fu
   })
 })
 
+check('builds a sentence with would like', function () {
+  var result = buildSentence(
+    'present_simple',
+    getSubject('i'),
+    getVerb('would_like'),
+    getTime('every_day'),
+    'affirmative',
+    getComplement('english'),
+    '',
+    getVerb('travel')
+  )
+  assert.equal(result.text, 'I would like to travel English every day.')
+  assert.deepEqual(result.parts, ['I', 'would like', 'to', 'travel', 'English', 'every day'])
+})
+
 check('builds a sentence with an infinitive verb', function () {
   var result = buildSentence(
     'present_simple',
