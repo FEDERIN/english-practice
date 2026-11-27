@@ -336,10 +336,12 @@ export function verbPhrase(tenseId, subject, verb) {
   }
 }
 
-export function buildSentence(tenseId, subject, verb, time, polarity, complement, timeText) {
+export function buildSentence(tenseId, subject, verb, time, polarity, complement, timeText, infinitiveVerb) {
   polarity = polarity || "affirmative";
   complement = complement && complement.id !== 'none' ? complement.text : '';
   var middle = verbPhrase(tenseId, subject, verb);
+  var infSuffix = infinitiveVerb ? ' to ' + infinitiveVerb.base : ''
+  var infPieces = infinitiveVerb ? ['to', infinitiveVerb.base] : []
   var resolvedTimeText = ''
   if (time) {
     resolvedTimeText = timeText || (Array.isArray(time.text) ? time.text[0] : time.text) || ''
@@ -372,21 +374,20 @@ export function buildSentence(tenseId, subject, verb, time, polarity, complement
     } else {
       middle = middle.replace("will", "won't");
     }
-    text = subject.text + " " + withComplement(middle) + (resolvedTimeText ? " " + resolvedTimeText : "") + ".";
-    parts = [subject.text, middle];
+    text = subject.text + " " + withComplement(middle + infSuffix) + (resolvedTimeText ? " " + resolvedTimeText : "") + ".";
+    parts = [subject.text, middle].concat(infPieces);
     if (complement) parts.push(complement);
     parts.push(resolvedTimeText);
   } else if (polarity === "question") {
+    let qSubject = subject.text != 'I' ? subject.text.toLowerCase() : 'I';
     if (tenseId === "present_simple") {
-      let subjectValue = subject.text != 'I' ? subject.text.toLowerCase() : 'I';
-      text = (isThirdSingular(subject) ? "Does" : "Do") + " " + subjectValue + " " + verb.base + (complement ? " " + complement : "") + (resolvedTimeText ? " " + resolvedTimeText : "") + "?";
-      parts = [isThirdSingular(subject) ? "Does" : "Do", subjectValue, verb.base];
+      text = (isThirdSingular(subject) ? "Does" : "Do") + " " + qSubject + " " + verb.base + infSuffix + (complement ? " " + complement : "") + (resolvedTimeText ? " " + resolvedTimeText : "") + "?";
+      parts = [isThirdSingular(subject) ? "Does" : "Do", qSubject, verb.base].concat(infPieces);
       if (complement) parts.push(complement);
       parts.push(resolvedTimeText);
     } else if (tenseId === "simple_past") {
-      let subjectValue = subject.text != 'I' ? subject.text.toLowerCase() : 'I';
-      text = "Did " + subjectValue + " " + verb.base + (complement ? " " + complement : "") + (resolvedTimeText ? " " + resolvedTimeText : "") + "?";
-      parts = ["Did", subjectValue, verb.base];
+      text = "Did " + qSubject + " " + verb.base + infSuffix + (complement ? " " + complement : "") + (resolvedTimeText ? " " + resolvedTimeText : "") + "?";
+      parts = ["Did", qSubject, verb.base].concat(infPieces);
       if (complement) parts.push(complement);
       parts.push(resolvedTimeText);
     } else {
@@ -395,25 +396,24 @@ export function buildSentence(tenseId, subject, verb, time, polarity, complement
       var qAux = qWords[0];
       var qRest = qWords.slice(1).join(" ");
       var qAuxCap = qAux.charAt(0).toUpperCase() + qAux.slice(1);
-      var qSubject = subject.text != 'I' ? subject.text.toLowerCase() : 'I';
-      text = qAuxCap + " " + qSubject + (qRest ? " " + qRest : "") + (complement ? " " + complement : "") + (resolvedTimeText ? " " + resolvedTimeText : "") + "?";
-      parts = [qAuxCap, subject.text];
+      text = qAuxCap + " " + qSubject + (qRest ? " " + qRest : "") + infSuffix + (complement ? " " + complement : "") + (resolvedTimeText ? " " + resolvedTimeText : "") + "?";
+      parts = [qAuxCap, qSubject];
       if (qRest) parts.push(qRest);
+      if (infPieces.length) parts = parts.concat(infPieces);
       if (complement) parts.push(complement);
       parts.push(resolvedTimeText);
     }
     middle = parts.join(" ");
   } else if (polarity === "question_negative") {
+    let qSubject = subject.text != 'I' ? subject.text.toLowerCase() : 'I';
     if (tenseId === "present_simple") {
-      let subjectValue = subject.text != 'I' ? subject.text.toLowerCase() : 'I';
-      text = (isThirdSingular(subject) ? "Doesn't" : "Don't") + " " + subjectValue + " " + verb.base + (complement ? " " + complement : "") + (resolvedTimeText ? " " + resolvedTimeText : "") + "?";
-      parts = [isThirdSingular(subject) ? "Doesn't" : "Don't", subjectValue, verb.base];
+      text = (isThirdSingular(subject) ? "Doesn't" : "Don't") + " " + qSubject + " " + verb.base + infSuffix + (complement ? " " + complement : "") + (resolvedTimeText ? " " + resolvedTimeText : "") + "?";
+      parts = [isThirdSingular(subject) ? "Doesn't" : "Don't", qSubject, verb.base].concat(infPieces);
       if (complement) parts.push(complement);
       parts.push(resolvedTimeText);
     } else if (tenseId === "simple_past") {
-      let subjectValue = subject.text != 'I' ? subject.text.toLowerCase() : 'I';
-      text = "Didn't " + subjectValue + " " + verb.base + (complement ? " " + complement : "") + (resolvedTimeText ? " " + resolvedTimeText : "") + "?";
-      parts = ["Didn't", subjectValue, verb.base];
+      text = "Didn't " + qSubject + " " + verb.base + infSuffix + (complement ? " " + complement : "") + (resolvedTimeText ? " " + resolvedTimeText : "") + "?";
+      parts = ["Didn't", qSubject, verb.base].concat(infPieces);
       if (complement) parts.push(complement);
       parts.push(resolvedTimeText);
     } else {
@@ -423,16 +423,17 @@ export function buildSentence(tenseId, subject, verb, time, polarity, complement
       var nNeg = negateAux(nAux);
       var nNegCap = nNeg.charAt(0).toUpperCase() + nNeg.slice(1);
       var nSubject = subject.text != 'I' ? subject.text.toLowerCase() : 'I';
-      text = nNegCap + " " + nSubject + (nRest ? " " + nRest : "") + (complement ? " " + complement : "") + (resolvedTimeText ? " " + resolvedTimeText : "") + "?";
-      parts = [nNegCap, subject.text];
+      text = nNegCap + " " + nSubject + (nRest ? " " + nRest : "") + infSuffix + (complement ? " " + complement : "") + (resolvedTimeText ? " " + resolvedTimeText : "") + "?";
+      parts = [nNegCap, nSubject];
       if (nRest) parts.push(nRest);
+      if (infPieces.length) parts = parts.concat(infPieces);
       if (complement) parts.push(complement);
       parts.push(resolvedTimeText);
     }
     middle = parts.join(" ");
   } else {
-    text = subject.text + " " + withComplement(middle) + (resolvedTimeText ? " " + resolvedTimeText : "") + ".";
-    parts = [subject.text, middle];
+    text = subject.text + " " + withComplement(middle + infSuffix) + (resolvedTimeText ? " " + resolvedTimeText : "") + ".";
+    parts = [subject.text, middle].concat(infPieces);
     if (complement) parts.push(complement);
     parts.push(resolvedTimeText);
   }
@@ -531,10 +532,10 @@ function firstDifference(expected, typed) {
   return null
 }
 
-export function evaluateSentence(tenseId, subject, verb, time, userSentence, polarity, complement, timeText) {
+export function evaluateSentence(tenseId, subject, verb, time, userSentence, polarity, complement, timeText, infinitiveVerb) {
   polarity = polarity || "affirmative"
   var tense = getTense(tenseId) || tenses[0]
-  var built = buildSentence(tenseId, subject, verb, time, polarity, complement, timeText)
+  var built = buildSentence(tenseId, subject, verb, time, polarity, complement, timeText, infinitiveVerb)
   var expected = built.text
   var expectedCanonical = clean(expected)
   var typedCanonical = canonicalVariants(userSentence)
@@ -619,12 +620,19 @@ export function randomCombination(tenseId) {
   var complementPool = complements.filter(function (item) { return item.id !== 'none' })
   var chosenTime = Math.random() < 0.3 ? null : times[Math.floor(Math.random() * times.length)]
   var chosenTimeText = chosenTime ? (Array.isArray(chosenTime.text) ? chosenTime.text[Math.floor(Math.random() * chosenTime.text.length)] : chosenTime.text) : ''
+  var chosenVerb = verbsWithoutRead[Math.floor(Math.random() * verbsWithoutRead.length)]
+  var chosenInfinitive = null
+  if (chosenVerb.takesInfinitive) {
+    var ivPool = verbs.filter(function (item) { return item.id !== 'read' })
+    chosenInfinitive = ivPool[Math.floor(Math.random() * ivPool.length)].id
+  }
   return {
     subjectId: subjects[Math.floor(Math.random() * subjects.length)].id,
-    verbId: verbsWithoutRead[Math.floor(Math.random() * verbsWithoutRead.length)].id,
+    verbId: chosenVerb.id,
     timeId: chosenTime ? chosenTime.id : null,
     timeText: chosenTimeText,
     complementId: Math.random() < 0.7 ? complementPool[Math.floor(Math.random() * complementPool.length)].id : 'none',
+    infinitiveVerbId: chosenInfinitive,
   }
 }
 

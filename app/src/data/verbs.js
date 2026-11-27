@@ -93,6 +93,15 @@ export var verbs = [
   { id: 'meet', base: 'meet', third: 'meets', ing: 'meeting', past: 'met', participle: 'met' },
   { id: 'invite', base: 'invite', third: 'invites', ing: 'inviting', past: 'invited', participle: 'invited' },
 
+  // Infinitive-taking verbs (want, need, hope, plan, decide, expect, promise, agree, refuse)
+  { id: 'hope', base: 'hope', third: 'hopes', ing: 'hoping', past: 'hoped', participle: 'hoped', takesInfinitive: true },
+  { id: 'plan', base: 'plan', third: 'plans', ing: 'planning', past: 'planned', participle: 'planned', takesInfinitive: true },
+  { id: 'decide', base: 'decide', third: 'decides', ing: 'deciding', past: 'decided', participle: 'decided', takesInfinitive: true },
+  { id: 'expect', base: 'expect', third: 'expects', ing: 'expecting', past: 'expected', participle: 'expected', takesInfinitive: true },
+  { id: 'promise', base: 'promise', third: 'promises', ing: 'promising', past: 'promised', participle: 'promised', takesInfinitive: true },
+  { id: 'agree', base: 'agree', third: 'agrees', ing: 'agreeing', past: 'agreed', participle: 'agreed', takesInfinitive: true },
+  { id: 'refuse', base: 'refuse', third: 'refuses', ing: 'refusing', past: 'refused', participle: 'refused', takesInfinitive: true },
+
   // Additional daily activities
   { id: 'sleep', base: 'sleep', third: 'sleeps', ing: 'sleeping', past: 'slept', participle: 'slept' },
   { id: 'run', base: 'run', third: 'runs', ing: 'running', past: 'ran', participle: 'run' },
@@ -100,8 +109,8 @@ export var verbs = [
   { id: 'exercise', base: 'exercise', third: 'exercises', ing: 'exercising', past: 'exercised', participle: 'exercised' },
 
   // State verbs and changes (referenced by the time expression filters)
-  { id: 'need', base: 'need', third: 'needs', ing: 'needing', past: 'needed', participle: 'needed' },
-  { id: 'want', base: 'want', third: 'wants', ing: 'wanting', past: 'wanted', participle: 'wanted' },
+  { id: 'need', base: 'need', third: 'needs', ing: 'needing', past: 'needed', participle: 'needed', takesInfinitive: true },
+  { id: 'want', base: 'want', third: 'wants', ing: 'wanting', past: 'wanted', participle: 'wanted', takesInfinitive: true },
   { id: 'know', base: 'know', third: 'knows', ing: 'knowing', past: 'knew', participle: 'known' },
   { id: 'prefer', base: 'prefer', third: 'prefers', ing: 'preferring', past: 'preferred', participle: 'preferred' },
   { id: 'believe', base: 'believe', third: 'believes', ing: 'believing', past: 'believed', participle: 'believed' },

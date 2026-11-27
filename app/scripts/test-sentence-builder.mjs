@@ -10,6 +10,7 @@ import {
   getSubject,
   getVerb,
   getTime,
+  getComplement,
   buildSentence,
   evaluateSentence,
   randomCombination,
@@ -184,6 +185,21 @@ check('time expression data references only known ids and has no duplicates', fu
     assert.equal(seenId[item.id], undefined, 'duplicate expression id: ' + item.id)
     seenId[item.id] = true
   })
+})
+
+check('builds a sentence with an infinitive verb', function () {
+  var result = buildSentence(
+    'present_simple',
+    getSubject('i'),
+    getVerb('want'),
+    getTime('every_day'),
+    'affirmative',
+    getComplement('english'),
+    '',
+    getVerb('learn')
+  )
+  assert.equal(result.text, 'I want to learn English every day.')
+  assert.deepEqual(result.parts, ['I', 'want', 'to', 'learn', 'English', 'every day'])
 })
 
 check('random combinations stay inside the available ids', function () {

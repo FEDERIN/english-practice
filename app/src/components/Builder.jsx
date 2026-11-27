@@ -103,6 +103,7 @@ export default function Builder({ onExit, recordAnswer }) {
     var combo = randomCombination('future_continuous')
     combo.timeId = null
     combo.timeText = ''
+    combo.infinitiveVerbId = null
     return combo
   })
   var [sentence, setSentence] = useState('')
@@ -115,6 +116,9 @@ export default function Builder({ onExit, recordAnswer }) {
   var [displayedVerbs, setDisplayedVerbs] = useState(function () {
     return shuffleVerbs(verbs, (combination && combination.verbId) || 'study')
   })
+  var [displayedInfinitiveVerbs, setDisplayedInfinitiveVerbs] = useState(function () {
+    return shuffleVerbs(verbs, (combination && combination.infinitiveVerbId) || 'study')
+  })
   var [displayedTimes, setDisplayedTimes] = useState(function () {
     return shuffleTimes(timeExpressions, combination && combination.timeId, combination && combination.timeText)
   })
@@ -123,11 +127,44 @@ export default function Builder({ onExit, recordAnswer }) {
     setDisplayedTimes(shuffleTimes(availableTimes, combination && combination.timeId, combination && combination.timeText))
   }, [tenseId, (combination && combination.verbId)])
 
+  useEffect(function () {
+    var v = verbs.filter(function (item) { return item.id === combination.verbId })[0]
+    if (v && v.takesInfinitive) {
+      if (!combination.infinitiveVerbId) {
+        setCombination(function (prev) {
+          return {
+            subjectId: prev.subjectId,
+            verbId: prev.verbId,
+            timeId: prev.timeId,
+            complementId: prev.complementId || 'none',
+            timeText: prev.timeText,
+            infinitiveVerbId: verbs[0].id,
+          }
+        })
+      }
+      setDisplayedInfinitiveVerbs(shuffleVerbs(verbs, combination.infinitiveVerbId || verbs[0].id))
+    } else {
+      if (combination.infinitiveVerbId) {
+        setCombination(function (prev) {
+          return {
+            subjectId: prev.subjectId,
+            verbId: prev.verbId,
+            timeId: prev.timeId,
+            complementId: prev.complementId || 'none',
+            timeText: prev.timeText,
+            infinitiveVerbId: null,
+          }
+        })
+      }
+    }
+  }, [combination.verbId])
+
   var tense = tenses.filter(function (item) { return item.id === tenseId })[0]
   var subject = getSubject(combination.subjectId)
   var verb = getVerb(combination.verbId)
   var time = getTime(combination.timeId)
   var complement = getComplement(combination.complementId || 'none')
+  var infinitiveVerb = combination.infinitiveVerbId ? getVerb(combination.infinitiveVerbId) : null
   var selectedTimeText = combination.timeText || (time && Array.isArray(time.text) ? time.text[0] : (time ? time.text : ''))
 
   // Complements only appear when they apply to the selected verb.
@@ -146,7 +183,7 @@ export default function Builder({ onExit, recordAnswer }) {
     combination.verbId = availableVerbs[0].id
     verb = getVerb(combination.verbId)
   }
-  var built = buildSentence(tenseId, subject, verb, time, polarity, complement, selectedTimeText)
+  var built = buildSentence(tenseId, subject, verb, time, polarity, complement, selectedTimeText, infinitiveVerb)
   var isQuestion = polarity === 'question' || polarity === 'question_negative'
   var piecesText = built.parts.join(' ') + (isQuestion ? '?' : '')
 
@@ -160,7 +197,7 @@ export default function Builder({ onExit, recordAnswer }) {
     combination.timeText = time && Array.isArray(time.text) ? time.text[0] : (time ? time.text : '')
     selectedTimeText = combination.timeText
     complement = getComplement(combination.complementId || 'none')
-    built = buildSentence(tenseId, subject, verb, time, polarity, complement, selectedTimeText)
+    built = buildSentence(tenseId, subject, verb, time, polarity, complement, selectedTimeText, infinitiveVerb)
   }
 
   function findVerb(term) {
@@ -181,12 +218,14 @@ export default function Builder({ onExit, recordAnswer }) {
     var match = findVerb(term)
     if (!match) return
     setCombination(function (prev) {
+      var sel = verbs.filter(function (v) { return v.id === match.id })[0]
       return {
         subjectId: prev.subjectId,
         verbId: match.id,
         timeId: prev.timeId,
         complementId: prev.complementId || 'none',
         timeText: prev.timeText,
+        infinitiveVerbId: (sel && sel.takesInfinitive) ? (prev.infinitiveVerbId || verbs[0].id) : null,
       }
     })
     setDisplayedVerbs(function (prev) {
@@ -218,6 +257,7 @@ export default function Builder({ onExit, recordAnswer }) {
       timeId: combination.timeId,
       complementId: combination.complementId || 'none',
       timeText: combination.timeText || selectedTimeText,
+      infinitiveVerbId: combination.infinitiveVerbId,
     }
     next[part] = id
     if (part === 'verbId') {
@@ -228,6 +268,22 @@ export default function Builder({ onExit, recordAnswer }) {
         if (deduped.length >= 9) deduped.pop()
         deduped.push(sel)
         setDisplayedVerbs(deduped)
+      }
+      var selVerb = verbs.filter(function (v) { return v.id === id })[0]
+      if (selVerb && selVerb.takesInfinitive) {
+        next.infinitiveVerbId = verbs[0].id
+        setDisplayedInfinitiveVerbs(shuffleVerbs(verbs, verbs[0].id))
+      } else {
+        next.infinitiveVerbId = null
+      }
+    }
+    if (part === 'infinitiveVerbId') {
+      var selInf = verbs.filter(function (v) { return v.id === id })[0]
+      if (selInf && displayedInfinitiveVerbs.indexOf(selInf) === -1) {
+        var dedupedInf = displayedInfinitiveVerbs.slice()
+        if (dedupedInf.length >= 9) dedupedInf.pop()
+        dedupedInf.push(selInf)
+        setDisplayedInfinitiveVerbs(dedupedInf)
       }
     }
     setCombination(next)
@@ -243,7 +299,7 @@ export default function Builder({ onExit, recordAnswer }) {
       return
     }
 
-    var evaluation = evaluateSentence(tenseId, subject, verb, time, sentence, polarity, complement, selectedTimeText)
+    var evaluation = evaluateSentence(tenseId, subject, verb, time, sentence, polarity, complement, selectedTimeText, infinitiveVerb)
     setResult(evaluation)
 
     var key = keyFor(tenseId, combination, sentence)
@@ -386,6 +442,33 @@ export default function Builder({ onExit, recordAnswer }) {
             })}
           </div>
         </fieldset>
+
+        {verb && verb.takesInfinitive ? (
+          <fieldset className="builder-panel">
+            <legend className="legend-empty"></legend>
+            <div className="divider">
+              <span className="divider-title">Infinitive verb</span>
+              <button type="button" className="legend-refresh" aria-label="Refresh infinitive verbs" title="Refresh infinitive verbs" onClick={function () { setDisplayedInfinitiveVerbs(shuffleVerbs(verbs, combination.infinitiveVerbId || verbs[0].id)) }}>
+                ↻
+              </button>
+            </div>
+            <div className="option-list">
+              {displayedInfinitiveVerbs.map(function (item) {
+                return (
+                  <button
+                    key={item.id}
+                    type="button"
+                    className={'option-button' + (item.id === (combination.infinitiveVerbId || '') ? ' is-active' : '')}
+                    onClick={function () { setPart('infinitiveVerbId', item.id) }}
+                  >
+                    {item.base}
+                    <small>{item.ing}</small>
+                  </button>
+                )
+              })}
+            </div>
+          </fieldset>
+        ) : null}
 
         <fieldset className="builder-panel">
           <legend className="legend-empty"></legend>
