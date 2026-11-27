@@ -111,6 +111,7 @@ export default function Builder({ onExit, recordAnswer }) {
   var [copied, setCopied] = useState(false)
   var [piecesCopied, setPiecesCopied] = useState(false)
   var [isPlaying, setIsPlaying] = useState(false)
+  var [verbSearch, setVerbSearch] = useState('')
   var [displayedVerbs, setDisplayedVerbs] = useState(function () {
     return shuffleVerbs(verbs, (combination && combination.verbId) || 'study')
   })
@@ -158,6 +159,40 @@ export default function Builder({ onExit, recordAnswer }) {
     selectedTimeText = combination.timeText
     complement = getComplement(combination.complementId || 'none')
     built = buildSentence(tenseId, subject, verb, time, polarity, complement, selectedTimeText)
+  }
+
+  function findVerb(term) {
+    var q = String(term || '').trim().toLowerCase()
+    if (!q) return null
+    var pool = availableVerbs.length ? availableVerbs : verbs
+    var exact = pool.filter(function (v) { return v.id.toLowerCase() === q })[0]
+    if (exact) return exact
+    var startsId = pool.filter(function (v) { return v.id.toLowerCase().indexOf(q) === 0 })[0]
+    if (startsId) return startsId
+    var startsBase = pool.filter(function (v) { return v.base.toLowerCase().indexOf(q) === 0 })[0]
+    if (startsBase) return startsBase
+    return pool.filter(function (v) { return v.id.toLowerCase().indexOf(q) !== -1 || v.base.toLowerCase().indexOf(q) !== -1 })[0] || null
+  }
+
+  function handleVerbSearch(term) {
+    setVerbSearch(term)
+    var match = findVerb(term)
+    if (!match) return
+    setCombination(function (prev) {
+      return {
+        subjectId: prev.subjectId,
+        verbId: match.id,
+        timeId: prev.timeId,
+        complementId: prev.complementId || 'none',
+        timeText: prev.timeText,
+      }
+    })
+    setDisplayedVerbs(function (prev) {
+      var without = prev.filter(function (v) { return v.id !== match.id })
+      var next = without.slice(0, 8)
+      next.push(match)
+      return next
+    })
   }
 
   function reset(tenseToUse) {
@@ -322,6 +357,13 @@ export default function Builder({ onExit, recordAnswer }) {
           <legend className="legend-empty"></legend>
           <div className="divider">
             <span className="divider-title">Verb</span>
+            <input
+              type="search"
+              className="verb-search"
+              placeholder="Search verb..."
+              value={verbSearch}
+              onChange={function (event) { handleVerbSearch(event.target.value) }}
+            />
             <button type="button" className="legend-refresh" aria-label="Refresh verbs" title="Refresh verbs" onClick={function () { setDisplayedVerbs(shuffleVerbs(verbs, combination.verbId)) }}>
               ↻
             </button>

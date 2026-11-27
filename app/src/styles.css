@@ -980,3 +980,14 @@ h3 {
   text-transform: uppercase;
   letter-spacing: 0.6px;
 }
+
+.verb-search {
+  flex: 1;
+  min-height: 34px;
+  padding: 4px 10px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #fff;
+  color: var(--ink);
+  font-size: 14px;
+}
