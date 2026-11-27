@@ -81,6 +81,14 @@ export var complements = [
   { id: 'my_family', text: 'my family', verbs: ['call', 'visit', 'help'] },
   { id: 'a_friend', text: 'a friend', verbs: ['call', 'visit', 'help', 'invite'] },
 
+  // States and roles (used with "be")
+  { id: 'happy', text: 'happy', verbs: ['be'] },
+  { id: 'ready', text: 'ready', verbs: ['be'] },
+  { id: 'free', text: 'free', verbs: ['be'] },
+  { id: 'sure', text: 'sure', verbs: ['be'] },
+  { id: 'a_doctor', text: 'a doctor', verbs: ['be'] },
+  { id: 'a_teacher', text: 'a teacher', verbs: ['be'] },,
+
   // Meeting new people
   { id: 'new_customers', text: 'new customers', verbs: ['meet'] },
   { id: 'new_providers', text: 'new providers', verbs: ['meet'] },

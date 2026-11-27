@@ -188,6 +188,9 @@ export default function Builder({ onExit, recordAnswer }) {
     if (nonStative.length) availableVerbs = nonStative
   }
 
+  // Infinitive-only verbs (e.g. "be") are never used as the main verb.
+  availableVerbs = availableVerbs.filter(function (item) { return !item.infinitiveOnly })
+
 
   if (availableVerbs.length && !availableVerbs.some(function (item) { return item.id === combination.verbId })) {
     combination.verbId = availableVerbs[0].id
@@ -454,6 +457,7 @@ export default function Builder({ onExit, recordAnswer }) {
           <div className="option-list">
             {displayedVerbs
               .filter(function (item) {
+                if (item.infinitiveOnly) return false
                 if (continuousTenses.indexOf(tenseId) === -1) return true
                 return !item.stative
               })
@@ -508,7 +512,13 @@ export default function Builder({ onExit, recordAnswer }) {
               >
                 none
               </button>
-              {displayedInfinitiveVerbs.map(function (item) {
+              {displayedInfinitiveVerbs
+                .filter(function (item) {
+                  var mainVerb = verbs.filter(function (v) { return v.id === verb.id })[0]
+                  var excluded = (mainVerb && mainVerb.infinitiveExcluded) || []
+                  return excluded.indexOf(item.id) === -1
+                })
+                .map(function (item) {
                 return (
                   <button
                     key={item.id}

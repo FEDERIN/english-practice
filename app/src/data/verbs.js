@@ -101,7 +101,7 @@ export var verbs = [
   { id: 'promise', base: 'promise', third: 'promises', ing: 'promising', past: 'promised', participle: 'promised', takesInfinitive: true },
   { id: 'agree', base: 'agree', third: 'agrees', ing: 'agreeing', past: 'agreed', participle: 'agreed', takesInfinitive: true },
   { id: 'refuse', base: 'refuse', third: 'refuses', ing: 'refusing', past: 'refused', participle: 'refused', takesInfinitive: true },
-  { id: 'would_like', base: 'would like', third: 'would like', ing: 'would be liking', past: 'would have liked', participle: 'would have liked', takesInfinitive: true, modal: true },
+  { id: 'would_like', base: 'would like', third: 'would like', ing: 'would be liking', past: 'would have liked', participle: 'would have liked', takesInfinitive: true, modal: true, stative: true },
 
   // Additional daily activities
   { id: 'sleep', base: 'sleep', third: 'sleeps', ing: 'sleeping', past: 'slept', participle: 'slept' },
@@ -109,7 +109,8 @@ export var verbs = [
   { id: 'walk', base: 'walk', third: 'walks', ing: 'walking', past: 'walked', participle: 'walked' },
   { id: 'exercise', base: 'exercise', third: 'exercises', ing: 'exercising', past: 'exercised', participle: 'exercised' },
 
-  // State verbs and changes (referenced by the time expression filters)
+  // Copula (only used as an infinitive: "want to be a doctor")
+  { id: 'be', base: 'be', third: 'is', ing: 'being', past: 'was', participle: 'been', infinitiveOnly: true },
   { id: 'need', base: 'need', third: 'needs', ing: 'needing', past: 'needed', participle: 'needed', takesInfinitive: true, stative: true},
   { id: 'want', base: 'want', third: 'wants', ing: 'wanting', past: 'wanted', participle: 'wanted', takesInfinitive: true, stative: true},
   { id: 'know', base: 'know', third: 'knows', ing: 'knowing', past: 'knew', participle: 'known', stative: true},
