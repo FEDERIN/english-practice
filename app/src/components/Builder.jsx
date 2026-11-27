@@ -167,9 +167,11 @@ export default function Builder({ onExit, recordAnswer }) {
   var infinitiveVerb = combination.infinitiveVerbId ? getVerb(combination.infinitiveVerbId) : null
   var selectedTimeText = combination.timeText || (time && Array.isArray(time.text) ? time.text[0] : (time ? time.text : ''))
 
-  // Complements only appear when they apply to the selected verb.
+  // Complements apply to the verb that takes the object: the infinitive verb
+  // when present (e.g. "want to study English"), otherwise the main verb.
+  var complementVerb = infinitiveVerb || verb
   var availableComplements = complements.filter(function (item) {
-    return item.verbs.indexOf(verb.id) !== -1
+    return item.verbs.indexOf(complementVerb.id) !== -1
   })
 
   if (!availableComplements.some(function (item) { return item.id === (combination.complementId || 'none') })) {
