@@ -118,7 +118,9 @@ export default function Builder({ onExit, recordAnswer }) {
     return shuffleVerbs(verbs, (combination && combination.verbId) || 'study')
   })
   var [displayedInfinitiveVerbs, setDisplayedInfinitiveVerbs] = useState(function () {
-    return shuffleVerbs(verbs, (combination && combination.infinitiveVerbId) || 'study')
+    var mainId = (combination && combination.verbId) || null
+    var pool = verbs.filter(function (v) { return v.id !== mainId })
+    return shuffleVerbs(pool, (combination && combination.infinitiveVerbId) || 'study')
   })
   var [displayedTimes, setDisplayedTimes] = useState(function () {
     return shuffleTimes(timeExpressions, combination && combination.timeId, combination && combination.timeText)
@@ -143,7 +145,7 @@ export default function Builder({ onExit, recordAnswer }) {
           }
         })
       }
-      setDisplayedInfinitiveVerbs(shuffleVerbs(verbs, combination.infinitiveVerbId || verbs[0].id))
+      setDisplayedInfinitiveVerbs(shuffleVerbs(verbs.filter(function (v) { return v.id !== combination.verbId }), combination.infinitiveVerbId || verbs[0].id))
     } else {
       if (combination.infinitiveVerbId) {
         setCombination(function (prev) {
@@ -253,7 +255,8 @@ export default function Builder({ onExit, recordAnswer }) {
     setInfinitiveVerbSearch(term)
     var q = String(term || '').trim().toLowerCase()
     if (!q) return
-    var pool = verbs
+    var mainId = combination && combination.verbId
+    var pool = verbs.filter(function (v) { return v.id !== mainId })
     var match =
       pool.filter(function (v) { return v.id.toLowerCase() === q })[0] ||
       pool.filter(function (v) { return v.id.toLowerCase().indexOf(q) === 0 })[0] ||
@@ -514,6 +517,7 @@ export default function Builder({ onExit, recordAnswer }) {
               </button>
               {displayedInfinitiveVerbs
                 .filter(function (item) {
+                  if (item.id === (verb && verb.id)) return false
                   var mainVerb = verbs.filter(function (v) { return v.id === verb.id })[0]
                   var excluded = (mainVerb && mainVerb.infinitiveExcluded) || []
                   return excluded.indexOf(item.id) === -1
