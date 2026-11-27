@@ -15,6 +15,8 @@ import {
   randomCombination,
   verbsForTime,
   timesForVerb,
+  tenses,
+  timeExpressionCategories,
 } from '../src/data/sentenceBuilder.js'
 
 function evaluate(tenseId, subjectId, verbId, timeId, sentence) {
@@ -126,7 +128,7 @@ check('verbExamples acts as a whitelist for a time expression', function () {
 })
 
 check('excludedVerbs removes verbs without listing the rest', function () {
-  var result = verbsForTime(getTime('right_now'), 'present_continuous')
+  var result = verbsForTime(getTime('right_now'), 'presente_continuo')
   var ids = result.map(function (item) { return item.id })
   assert.equal(ids.indexOf('know'), -1)
   assert.equal(ids.indexOf('have'), -1)
@@ -142,14 +144,46 @@ check('timesForVerb drops expressions whose verbExamples whitelist does not matc
 })
 
 check('timesForVerb falls back instead of returning an empty list', function () {
-  var result = timesForVerb('know', 'present_continuous')
+  var result = timesForVerb('know', 'presente_continuo')
   assert.ok(result.length > 0)
 })
 
 check('time expressions expose excludedVerbs for the selected tense', function () {
   var rightNow = getTime('right_now')
-  assert.ok(Array.isArray(rightNow.excludedVerbs.present_continuous))
-  assert.equal(rightNow.excludedVerbs.present_continuous.indexOf('know') !== -1, true)
+  assert.ok(Array.isArray(rightNow.excludedVerbs.presente_continuo))
+  assert.equal(rightNow.excludedVerbs.presente_continuo.indexOf('know') !== -1, true)
+})
+
+check('time expression data references only known ids and has no duplicates', function () {
+  var tenseIds = tenses.map(function (item) { return item.id })
+  var verbIds = verbs.map(function (item) { return item.id })
+  var seenText = {}
+  var seenId = {}
+
+  timeExpressionCategories.forEach(function (cat) {
+    cat.expressions.forEach(function (expr) {
+      assert.equal(seenText[expr], undefined, 'duplicate expression: ' + expr)
+      seenText[expr] = cat.id
+    })
+
+    ;(cat.preferred || []).forEach(function (tenseId) {
+      assert.ok(tenseIds.indexOf(tenseId) !== -1, cat.id + ' prefers unknown tense: ' + tenseId)
+    })
+
+    ;['verbExamples', 'excludedVerbs'].forEach(function (field) {
+      Object.keys(cat[field] || {}).forEach(function (tenseId) {
+        assert.ok(tenseIds.indexOf(tenseId) !== -1, cat.id + '.' + field + ' uses unknown tense: ' + tenseId)
+        ;(cat[field][tenseId] || []).forEach(function (verbId) {
+          assert.ok(verbIds.indexOf(verbId) !== -1, cat.id + '.' + field + '[' + tenseId + '] uses unknown verb: ' + verbId)
+        })
+      })
+    })
+  })
+
+  timeExpressions.forEach(function (item) {
+    assert.equal(seenId[item.id], undefined, 'duplicate expression id: ' + item.id)
+    seenId[item.id] = true
+  })
 })
 
 check('random combinations stay inside the available ids', function () {

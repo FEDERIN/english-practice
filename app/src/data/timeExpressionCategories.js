@@ -160,7 +160,7 @@ export const timeExpressionCategories = [
       "at present",
     ],
     preferred: [
-      "present_continuous",
+      "presente_continuo",
       "present_simple",
     ],
     context: "current_situation",
@@ -182,10 +182,8 @@ export const timeExpressionCategories = [
         "have"
       ]
     },
-    // State verbs do not normally take the continuous form, so instead of
-    // listing every possible action verb we exclude the state verbs.
     excludedVerbs: {
-      present_continuous: [
+      presente_continuo: [
         "know",
         "want",
         "need",
@@ -210,9 +208,7 @@ export const timeExpressionCategories = [
     expressions: [
       "as of now",
       "as of today",
-      "as of this moment",
-      "currently",
-      "at present"
+      "as of this moment"
     ],
     preferred: [
       "present_simple",

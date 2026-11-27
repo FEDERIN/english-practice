@@ -97,5 +97,23 @@ export var verbs = [
   { id: 'sleep', base: 'sleep', third: 'sleeps', ing: 'sleeping', past: 'slept', participle: 'slept' },
   { id: 'run', base: 'run', third: 'runs', ing: 'running', past: 'ran', participle: 'run' },
   { id: 'walk', base: 'walk', third: 'walks', ing: 'walking', past: 'walked', participle: 'walked' },
-  { id: 'exercise', base: 'exercise', third: 'exercises', ing: 'exercising', past: 'exercised', participle: 'exercised' }
+  { id: 'exercise', base: 'exercise', third: 'exercises', ing: 'exercising', past: 'exercised', participle: 'exercised' },
+
+  // State verbs and changes (referenced by the time expression filters)
+  { id: 'need', base: 'need', third: 'needs', ing: 'needing', past: 'needed', participle: 'needed' },
+  { id: 'want', base: 'want', third: 'wants', ing: 'wanting', past: 'wanted', participle: 'wanted' },
+  { id: 'know', base: 'know', third: 'knows', ing: 'knowing', past: 'knew', participle: 'known' },
+  { id: 'prefer', base: 'prefer', third: 'prefers', ing: 'preferring', past: 'preferred', participle: 'preferred' },
+  { id: 'believe', base: 'believe', third: 'believes', ing: 'believing', past: 'believed', participle: 'believed' },
+  { id: 'like', base: 'like', third: 'likes', ing: 'liking', past: 'liked', participle: 'liked' },
+  { id: 'love', base: 'love', third: 'loves', ing: 'loving', past: 'loved', participle: 'loved' },
+  { id: 'hate', base: 'hate', third: 'hates', ing: 'hating', past: 'hated', participle: 'hated' },
+  { id: 'remember', base: 'remember', third: 'remembers', ing: 'remembering', past: 'remembered', participle: 'remembered' },
+  { id: 'mean', base: 'mean', third: 'means', ing: 'meaning', past: 'meant', participle: 'meant' },
+  { id: 'own', base: 'own', third: 'owns', ing: 'owning', past: 'owned', participle: 'owned' },
+  { id: 'belong', base: 'belong', third: 'belongs', ing: 'belonging', past: 'belonged', participle: 'belonged' },
+  { id: 'begin', base: 'begin', third: 'begins', ing: 'beginning', past: 'began', participle: 'begun' },
+  { id: 'change', base: 'change', third: 'changes', ing: 'changing', past: 'changed', participle: 'changed' },
+  { id: 'update', base: 'update', third: 'updates', ing: 'updating', past: 'updated', participle: 'updated' },
+  { id: 'achieve', base: 'achieve', third: 'achieves', ing: 'achieving', past: 'achieved', participle: 'achieved' }
 ];
