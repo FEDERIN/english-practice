@@ -78,6 +78,12 @@ Este archivo es el índice de las reglas de inglés, organizadas por archivos po
 - Ortografía -ing: quitar la "e" muda (make → making); duplicar consonante en verbos CVC de una sílaba (run → running); en el resto, solo -ing (play → playing).
 - "wear" (simple) vs "am wearing" (lo que se lleva puesto ahora).
 
+### Verbos de estado (stative verbs) y tiempos continuos
+- Los verbos de estado (know, like, love, hate, want, need, believe, understand, remember, own, belong, prefer, mean, have) **no se usan en tiempos continuos** (presente, pasado, futuro, perfecto continuo).
+- Con ellos se usa la forma simple: *I know the answer* (no ~~I am knowing~~), *She will want to study* (no ~~She will be wanting~~).
+- Algunos verbos cambian de significado en continuo: *I'm having lunch* (acción) vs *I have a car* (estado); *She's thinking* (reflexionar) vs *I think it's good* (opinar).
+- "want" siempre es de estado: ~~will be wanting~~ → *will want*.
+
 ### There is / There are
 - Singular: There is + a/an + singular. Plural: There are + plural.
 - Negativas: isn't / aren't; "not any" en lugar de "no" + sustantivo.

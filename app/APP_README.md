@@ -62,6 +62,7 @@ Edit `src/data/sentenceBuilder.js` to extend the Sentence Builder:
 - `verbExamples` (in `src/data/timeExpressionCategories.js`) — per-tense allow-list: when a verb is listed for a tense, that expression only appears for those verbs.
 - `excludedVerbs` (same file) — per-tense deny-list: verbs listed here are removed for that expression. Use it when fewer verbs need excluding than including. Both filters can be combined; exclusions are applied after the allow-list.
 - `tenses` — rule, form, use, example and exceptions for each tense.
+- `stative` (in `src/data/verbs.js`) — marks stative verbs (know, like, want, need, have…). The Builder hides those verbs in continuous tenses (present, past, future, perfect continuous) to avoid sentences like *She will be wanting to study*. Does not affect simple or perfect tenses.
 
 Add new practice sentences to the `.md` notes and use the `english-practice` MCP tools (`generate_exercise` + `check_answer`) to produce more fill-in-the-blank items.
 

@@ -27,7 +27,10 @@
 - I am training to drive each day.
 - I am listening to this class on my phone.
 - She is running and training every morning because of her competition.
-- I am working every day.
+## Verbos de estado (stative verbs)
+- Verbos de estado (know, like, love, hate, want, need, believe, understand, remember, own, belong, prefer, mean, have) **no se usan en forma continua**.
+- Usar la forma simple: *I know the answer* (no ~~I am knowing~~), *She wants to study* (no ~~She is wanting~~).
+- Algunos verbos cambian de significado: *I'm having lunch* (acción) vs *I have a car* (estado).
 - We are finishing the homework.
 - They are playing soccer.
 - We are preparing the dinner.
