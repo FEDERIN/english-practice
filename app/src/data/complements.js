@@ -77,7 +77,11 @@ export var complements = [
   { id: 'a_song', text: 'a song', verbs: ['sing', 'write', 'compose', 'record'] },
 
   // People
-  { id: 'my_friend', text: 'my friend', verbs: ['call', 'visit', 'help', 'meet', 'invite'] },
-  { id: 'my_family', text: 'my family', verbs: ['call', 'visit', 'help', 'meet'] },
-  { id: 'a_friend', text: 'a friend', verbs: ['call', 'visit', 'help', 'meet', 'invite'] }
+  { id: 'my_friend', text: 'my friend', verbs: ['call', 'visit', 'help', 'invite'] },
+  { id: 'my_family', text: 'my family', verbs: ['call', 'visit', 'help'] },
+  { id: 'a_friend', text: 'a friend', verbs: ['call', 'visit', 'help', 'invite'] },
+
+  // Meeting new people
+  { id: 'new_customers', text: 'new customers', verbs: ['meet'] },
+  { id: 'new_providers', text: 'new providers', verbs: ['meet'] },
 ];

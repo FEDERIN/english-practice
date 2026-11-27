@@ -45,9 +45,33 @@
 - hear --> oír / escuchar
 - bark --> ladrar
 - see --> ver
+- cellphone --> teléfono móvil / celular
+- Is your cellphone an Android or an iPhone? --> ¿Tu teléfono es Android o iPhone?
+- computer --> computadora / ordenador
+- brand --> marca
+- another --> otro
+- Is your computer an Apple or another brand? --> ¿Tu computadora es Apple o de otra marca?
+- country --> país
+- live --> vivir
+- city --> ciudad
+- from --> de (origen)
+- career --> carrera (profesional)
+- postgraduate --> posgrado
+- family --> familia
+- week --> semana
+
+## Expresiones de tiempo
+- for a week --> por una semana
+- for two weeks --> por dos semanas
+- for a month --> por un mes
+- for the weekend --> por el fin de semana
+- for a few days --> por unos días
+- all week --> toda la semana
+- the whole week --> toda la semana
 
 ## Verbos + preposición
 - meet with --> reunirse con
+- meet --> conocer / reunirse con
 - speak to --> hablar a / hablar con
 - listen to --> escuchar
 - speak with --> hablar con

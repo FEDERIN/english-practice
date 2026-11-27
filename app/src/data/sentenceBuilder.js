@@ -14,7 +14,8 @@ export var subjects = [
   { id: 'we', text: 'We', person: 1, plural: true, bePresent: 'are', bePast: 'were', have: 'have' },
   { id: 'they', text: 'They', person: 3, plural: true, bePresent: 'are', bePast: 'were', have: 'have' },
   { id: 'he', text: 'He', person: 3, plural: false, bePresent: 'is', bePast: 'was', have: 'has' },
-  { id: 'she', text: 'She', person: 3, plural: false, bePresent: 'is', bePast: 'was', have: 'has' }
+  { id: 'she', text: 'She', person: 3, plural: false, bePresent: 'is', bePast: 'was', have: 'has' },
+  { id: 'it', text: 'It', person: 3, plural: false, bePresent: 'is', bePast: 'was', have: 'has' }
 ]
 
 
@@ -530,13 +531,6 @@ export function evaluateSentence(tenseId, subject, verb, time, userSentence, pol
     if (!isPreferred) {
       natural = false
       naturalMessage = 'This is understandable, but not the most natural pairing. ' + (time.note || '')
-    } else {
-      var excluded = time.excludedVerbs ? time.excludedVerbs[tenseId] : null
-      if (Array.isArray(excluded) && excluded.length && excluded.indexOf(verb.id) !== -1) {
-        natural = false
-        naturalMessage = 'This is understandable, but not the most natural pairing. ' + (time.note || '') +
-          ' “' + verb.base + '” does not fit this time expression.'
-      }
     }
   } else {
     natural = true

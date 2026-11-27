@@ -13,9 +13,6 @@ export const timeExpressionCategories = [
     preferred: ["present_simple"],
     context: "habitual_action",
     note: "Used to describe habits and daily routines.",
-    excludedVerbs: {
-      present_simple: ["meet"]
-    },
   },
   {
     id: "periodic_frequency",
@@ -31,9 +28,6 @@ export const timeExpressionCategories = [
     preferred: ["present_simple"],
     context: "recurring_action",
     note: "Used to describe actions that repeat at regular intervals.",
-    excludedVerbs: {
-      present_simple: ["meet"]
-    },
   },
   {
     id: "repeated_frequency",
@@ -46,9 +40,6 @@ export const timeExpressionCategories = [
     preferred: ["present_simple"],
     context: "repeated_action",
     note: "Used to specify how often an action is repeated.",
-    excludedVerbs: {
-      present_simple: ["meet"]
-    },
   },
   {
     id: "specific_past",
@@ -102,7 +93,7 @@ export const timeExpressionCategories = [
         "arrive",
         "begin",
         "close",
-        "finish",
+        "finish"
       ],
     },
     context: "planned_future_event",
@@ -124,6 +115,9 @@ export const timeExpressionCategories = [
       "present_perfect",
       "present_perfect_continuous",
     ],
+    excludedVerbs: {
+      present_simple: ['meet']
+    },
     context: "time_duration",
     note: "Used to express how long an action or situation lasts. The tense depends on whether the period is habitual, completed or ongoing.",
   },

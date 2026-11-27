@@ -66,6 +66,18 @@ always, usually, often, sometimes, never, every day, on Mondays, once a week.
 - I walk in the park every morning.
 - My dad drives a bus.
 - My grandmother prepares cookies every Sunday.
+- Is your cellphone an Android or an iPhone?
+- Is your computer an Apple or another brand?
+- Where do you live?
+- What city do you live in?
+- Where is she from?
+- Where are they from?
+- What city are you from?
+- What city is Claudia from?
+- Is it a new career or a postgraduate degree?
+- I meet my family every Sunday.
+- Do you meet your friends on weekends?
+- She meets her boss every Monday.
 
 ## Watch out
 
